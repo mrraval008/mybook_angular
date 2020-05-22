@@ -1,0 +1,19 @@
+.navbar{
+    background: var(--header-background-color)
+}
+
+
+.header-icon{
+    padding: 0.2rem 2rem !important;
+    border-bottom: 4px solid #0e7afff7;
+    
+}
+.header-icon i {
+    font-size: 1.8rem;
+    color: #0e7afff7;
+}
+
+._header{
+    margin-left: 16rem !important
+}
+

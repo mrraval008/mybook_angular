@@ -5,17 +5,16 @@ import { AuthComponent } from 'src/app/component/auth/auth.component';
 
 const routes: Routes = [
   {
-    path:'auth',
-    loadChildren:'./modules/auth/auth.module#AuthModule'
-  },
-  {
     path:'',
-    loadChildren:'./modules/home/home.module#HomeModule'
+    component:AuthComponent
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AuthRoutingModule { }
+
+
+
