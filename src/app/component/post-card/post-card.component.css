@@ -1,0 +1,13 @@
+:host{
+    display: flex;
+    justify-content: center;
+}
+
+.card{
+    width: 85%;
+}
+
+.card-text{
+    color: var(--title-color);
+}
+
