@@ -1,5 +1,5 @@
 /* .box_container:hover{
-    background : var(--hover-background-color)
+    background : var(--second-color)
 } */
 /* .box_container{
     margin-top: 1rem
@@ -8,7 +8,7 @@
 .comment_input{
     color: white;
     outline: 0;
-    background: var(--hover-background-color);
+    background: var(--third-color);
     height: 2.5rem;
     padding: 10px;
     width: 100%;
@@ -23,6 +23,6 @@
 
 .other_comment{
     padding: 0.3rem 0.5rem;
-    background: var(--hover-background-color) ;
+    background: var(--third-color) ;
     border-radius: 18px;
 }

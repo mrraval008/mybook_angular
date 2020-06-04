@@ -1,0 +1,23 @@
+
+.modal-dialog{
+    display: flex;
+    justify-content: center
+}
+.modal-content{
+    width: 50%;
+    background: transparent;
+}
+.carousel-control-next,.carousel-control-prev{
+    background: #5a58582e;
+    
+}
+.carousel-control-next{
+    right: -83px;
+}
+.carousel-control-prev{
+    left: -83px;
+}
+
+.carousel-item{
+    /* display: initial !important */
+}

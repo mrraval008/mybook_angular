@@ -9,7 +9,7 @@ const routes: Routes = [
     loadChildren:'./modules/auth/auth.module#AuthModule'
   },
   {
-    path:'',
+    path:'home',
     loadChildren:'./modules/home/home.module#HomeModule'
   }
 ];

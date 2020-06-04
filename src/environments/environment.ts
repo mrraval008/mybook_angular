@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  APIEndPoint:"http://127.0.0.1:3000/api/v1/"
+  PostAPIEndPoint:"http://127.0.0.1:3000/api/v1/posts",
+  UserAPIEndPoint:"http://127.0.0.1:3000/api/v1/users",
+  PostsS3ImageBaseURL:"https://mybookproject.s3.ap-south-1.amazonaws.com/posts",
+  UserS3ImagerBseeURL:"https://mybookproject.s3.ap-south-1.amazonaws.com/users"
 };
 
 /*

@@ -1,37 +1,86 @@
-<div class="card global-dark-2-background shadow mt-3">
-    <app-box class="m-2"></app-box>
-    <p class="card-text ml-2 mr-2">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+<div class="card global-dark-2-background shadow mt-3 mb-3">
+        <div *ngIf="isLoading && !isCreate">
+                <app-loader [isLoading]="isLoading"></app-loader>
+            </div>
+    <div *ngIf="isCreate">
+        <app-create-modal></app-create-modal>
+    </div>
 
-    <img src="../../../assets/images/user/user-1.jpg" class="card-img-top" alt="...">
-    <div class="card-body">
-        <div class="container">
-            <div class="row m-0">
-                <div>
-                    <span>2 of 3 (wider)</span>
+    <div *ngIf="isCreate" data-toggle="modal" data-target="#createModal">
+        <div class="m-3">
+            <app-box [config]="currentUserConfg" [isReadOnly]="true"></app-box>
+        </div>
+        <hr/>
+        <ul class="list-group list-group-horizontal p-2">
+            <li class="list-group-item rounded p-2" appHilightBackground>
+                <span>
+                    <img src="../../../assets/images/icon_images/camera.png"> Live Video
+                </span>
+            </li>
+            <li class="list-group-item  rounded p-2" appHilightBackground>
+                <span>
+                    <img src="../../../assets/images/icon_images/photo.png"> Photo/Video
+                </span>
+            </li>
+            <li class="list-group-item  rounded p-2" appHilightBackground>
+                <span>
+                    <img src="../../../assets\images\icon_images\smiley.png"> Feeling
+                </span>
+            </li>
+        </ul>
+    </div>
+
+    <div *ngIf="!isCreate">
+       
+        <div class="m-3">
+            <app-box [config]="createdByConfig" [options]="actionList"></app-box>
+        </div>
+
+        <p class="card-text ml-3 mr-3">{{postContent}}</p>
+
+        <div *ngIf="postImages.length > 0">
+            <app-masonary [images]="postImages"></app-masonary>
+            
+        </div>
+
+        <div class="card-body">
+            <div class="container">
+                <div class="row m-0">
+                    <div>
+                        <span class="icon_container">
+                            <i class="fa fa-thumbs-up like_icon" aria-hidden="true"></i>
+                        </span>
+                        <span class="icon_container">
+                                <!-- https://ezgif.com/effects/ezgif-3-acdb90e0221e.gif -->
+                            <i class="fa fa-heart love_icon" aria-hidden="true"></i>
+                        </span>
+                        <span class="ml-2">{{noOfLikes}} Likes</span>
+                    </div>
+                    <div class="col p-0 text-right">
+                        <span class="mr-2">{{noOfComments}} Comments</span>
+                        <span>{{noOfShare}} Shares</span>
+                    </div>
                 </div>
-                <div class="col p-0 text-right">
-                    <span class="mr-2">100 Comments</span>
-                    <span>100 Shares</span>
+                <hr/>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item  rounded" appHilightBackground #likeButton>
+                        <span>
+                            <i class="fa fa-thumbs-o-up pr-2" aria-hidden="true" (click)="onLikeClick(postId)"></i>Like</span>
+                    </li>
+                    <li class="list-group-item  rounded" appHilightBackground>
+                        <span>
+                            <i class="fa fa-comment-o pr-2" aria-hidden="true" (click)="onCommentClick(postId)"></i>Comments</span>
+                    </li>
+                    <li class="list-group-item  rounded" appHilightBackground>
+                        <span>
+                            <i class="fa fa-share pr-2" aria-hidden="true" (click)="onShareClick(postId)"></i>Share</span>
+                    </li>
+                </ul>
+                <hr/>
+                <app-box [config]="currentUserConfg"></app-box>
+                <div *ngFor="let commentConfig of commentsConfig">
+                    <app-box [config]="commentConfig"></app-box>
                 </div>
             </div>
-            <hr/>
-            <ul class="list-group list-group-horizontal">
-                <li class="list-group-item back-hover rounded">
-                    <span>
-                        <i class="fa fa-thumbs-o-up pr-2" aria-hidden="true"></i>Like</span>
-                </li>
-                <li class="list-group-item back-hover rounded">
-                    <span>
-                        <i class="fa fa-comment-o pr-2" aria-hidden="true"></i>Comments</span>
-                </li>
-                <li class="list-group-item back-hover rounded">
-                    <span>
-                        <i class="fa fa-share pr-2" aria-hidden="true"></i>Share</span>
-                </li>
-            </ul>
-            <hr/>
-            <app-box></app-box>
-            <app-box></app-box>
-            <app-box></app-box>
         </div>
     </div>

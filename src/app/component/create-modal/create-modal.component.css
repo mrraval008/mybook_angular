@@ -1,0 +1,34 @@
+._modal{
+    background: var(--second-color);
+}
+.modal-header{
+    border-bottom: 1px solid var(--fourth-color)
+}
+.modal-footer {
+    border-top: 1px solid var(--fourth-color)
+}
+
+.modal-body textarea{
+    color: var(--input-text-color);
+    height: 100%;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    resize: none;
+    background: var(--second-color);
+    
+}
+::placeholder { 
+    font-size: 1.5rem;
+}
+.image_conatiner i{
+    font-size: 1rem;
+    border-radius: 50%;
+    padding: 0.4rem;
+    background: var(--third-color);
+    right: 0;
+}
+
+.image_conatiner:hover i{
+    visibility: visible !important
+}

@@ -1,0 +1,15 @@
+
+
+<app-carousel *ngIf="showCarousel" [images]="images" [activeIndex]="activeIndex"></app-carousel>
+<div class="container" (click)="onImageClick($event)" data-toggle="modal" data-target="#carouselModal">
+    <div class="grids" *ngFor="let imgUrl of images;let ind = index" [ngClass]="{'threeChild':images.length == 3,'twoChild':images.length == 2}">
+        <div *ngIf="ind <= 3" class="overlay-container position-relative">
+                <img src="{{imgUrl}}"  alt="..." id="{{ind}}">
+                <div *ngIf="images.length > 4 && ind == 3" class="position-absolute overlay">
+                            <p>+ {{images.length - 4}}</p>
+                 </div>
+        </div>
+    </div>
+</div>
+<!-- <a class="carousel-item" href="#{{hrefs[i]}}!" *ngFor="let item of items;let i = index; let last = last"> -->
+        
