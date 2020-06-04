@@ -13,9 +13,13 @@ import { GlobalErrorHandlerService } from 'src/app/service/global-error-handler.
 import { Router } from '@angular/router';
 
 
-import * as fromAuth from '../store/auth/auth.reducer';
+import * as fromApp from '../store/app.reducer';
 import * as AuthAction from '../store/auth/auth.actions';
+
+
+
 import { User } from 'src/app/models/user.model';
+import { UtilsService } from 'src/app/service/utils.service';
 
 interface UserData{
   active:string;
@@ -42,10 +46,13 @@ export interface AuthResponseData{
 })
 export class AuthService {
 
-  private serverUrl:string = "";
+  private serverUrl:string = environment.UserAPIEndPoint;
 
-  constructor(private httpService:HttpClient,private globalErrorHandler:GlobalErrorHandlerService,private router:Router,private store:Store<{authReducer:{user:User}}>) {
-      this.serverUrl = environment.APIEndPoint + "users";
+  constructor(private httpService:HttpClient,
+              private globalErrorHandler:GlobalErrorHandlerService,
+              private router:Router,
+              private store:Store<fromApp.AppState>,
+              private utils:UtilsService) {
   }
 
   login(email:string,password:string){
@@ -54,6 +61,7 @@ export class AuthService {
             .pipe(catchError(this.globalErrorHandler.handleError),map(((resData:AuthResponseData)=>{
                 let userObj  = {...resData.data.user};
                 userObj['token'] = resData.data.token;
+                this.utils.setLocaleStorageData({'authToken':resData.data.token})
                 return userObj;
             })), tap(resData=>{
                this.handletAuthentication(resData);

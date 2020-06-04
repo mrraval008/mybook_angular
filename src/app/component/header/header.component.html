@@ -2,53 +2,72 @@
     <div class="navbar-nav-scroll position-absolute d-none d-md-block">
         <ul class="nav nav-pills">
             <li class="nav-item">
-             <app-search-bar></app-search-bar>
+                <app-search-bar placeholder="Search MyBook"></app-search-bar>
             </li>
         </ul>
     </div>
 
     <ul class="navbar-nav ml-md-auto d-none d-xl-block">
         <ul class="nav nav-pills _header">
-            <li class="nav-item mr-1 back-hover">
-                <a class="nav-link header-icon" href="#">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                </a>
-            </li>
-            <li class="nav-item mr-1 back-hover">
-                <a class="nav-link header-icon" href="#">
-                    <i class="fa fa-desktop" aria-hidden="true"></i>
-                </a>
-            </li>
-            <li class="nav-item mr-1 back-hover">
-                <a class="nav-link header-icon" href="#">
-                    <i class="fa fa-book" aria-hidden="true"></i>
-                </a>
-            </li>
-            <li class="nav-item mr-1 back-hover">
-                <a class="nav-link header-icon" href="#">
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                </a>
-            </li>
-            <li class="nav-item mr-1 back-hover">
-                <a class="nav-link header-icon" href="#">
-                    <i class="fa fa-building" aria-hidden="true"></i>
+            <li class="nav-item mr-1 back-hover-2" *ngFor="let icon of icons">
+                <a class="nav-link header-icon" [routerLink]="[icon.url]" routerLinkActive="active-link">
+                    <i [class]="_iconsClass[icon.iconName]" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
     </ul>
     <ul class="navbar-nav ml-md-auto">
         <ul class="nav nav-pills">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Active</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            <li class="nav-item" *ngFor="let config of menuConfigs">
+                <app-dropdown [config]="config"></app-dropdown>
+                <!-- <div class="dropdown">
+                    <div class="icon_inside_circle d-flex justify-content-center align-items-center mr-2" id="dropdownMenu2" data-toggle="dropdown">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="dropdown-menu dropdown-menu-right custom_dropdown light_shadow" aria-labelledby="dropdownMenu2">
+                        <div class="back-hover-2 rounded-lg p-2">
+                                 <app-box></app-box>
+                                
+                        </div>
+                        <div class="back-hover-2 rounded-lg p-2">
+                                <app-box></app-box> -->
+
+                <!-- </div>
+                        <div class="back-hover-2 rounded-lg p-2">
+                                <app-box></app-box>
+                                
+                        </div> -->
+                <!-- </div>
+                </div>  -->
+
+                <!-- <ul class="">
+                    <li class="list-group-item back-hover-2 rounded-lg">
+                        <a href="/docs/4.5/getting-started/introduction/">
+                            <app-box class="title"></app-box>
+                        </a>
+                    </li>
+                    <li class="list-group-item back-hover-2 rounded-lg">
+                        <a href="/docs/4.5/getting-started/introduction/">
+                            <app-box></app-box>
+                        </a>
+                    </li>
+                    <li class="list-group-item back-hover-2 rounded-lg">
+                        <a href="/docs/4.5/getting-started/introduction/">
+                            <app-box></app-box>
+                        </a>
+                    </li>
+                    <li class="list-group-item back-hover-2 rounded-lg">
+                        <a href="/docs/4.5/getting-started/introduction/">
+                            <app-box></app-box>
+                        </a>
+                    </li>
+                    <li class="list-group-item back-hover-2 rounded-lg">
+                        <a href="/docs/4.5/getting-started/introduction/">
+                            <app-box></app-box>
+                        </a>
+                    </li>
+                </ul> -->
             </li>
         </ul>
     </ul>

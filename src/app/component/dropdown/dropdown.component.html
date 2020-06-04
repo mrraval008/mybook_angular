@@ -1,0 +1,16 @@
+<div class="dropdown">
+    <div class="icon_inside_circle d-flex justify-content-center align-items-center mr-2" id="dropdownMenu" data-toggle="dropdown">
+        <i [class]="_iconsClass[config.iconName]" aria-hidden="true"></i>
+    </div>
+
+    <div class="dropdown-menu dropdown-menu-right custom_dropdown light_shadow" [ngClass]="{'fix-dropdopwn':config.isHeader}" aria-labelledby="dropdownMenu">
+         <div *ngIf="config.title">
+            <h4 class="font-weight-bold">{{config.title}}</h4>
+        </div>   
+        <div class="rounded-lg" [ngClass]="{'p-1':config.mdSize}" appHilightBackground *ngFor="let option of config.list_options">
+            <div (click)="onDropdownItemClick(option)">
+                    <app-box [config]="option"></app-box>
+            </div>
+        </div>
+    </div>
+</div>

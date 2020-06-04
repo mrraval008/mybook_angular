@@ -22,69 +22,9 @@
         <div class="bd-toc-item active">
 
             <ul class="nav bd-sidenav">
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box class="title"></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
-                    </a>
-                </li>
-                <li class="back-hover rounded-lg">
-                    <a href="/docs/4.5/getting-started/introduction/">
-                        <app-box></app-box>
+                <li class="rounded-lg" appHilightBackground *ngFor="let config of homeConfigs.sidebarConfig">
+                    <a [routerLink]="config.url">
+                        <app-box [config]="config"></app-box>
                     </a>
                 </li>
             </ul>

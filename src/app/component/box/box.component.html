@@ -1,27 +1,46 @@
-<div class="box_container rounded">
+<div *ngIf="config">
+    <div class="box_container rounded">
         <!-- for comments -->
-    <!-- <div class="media d-flex align-items-top mi-h-3">  -->
+        <!-- <div class="media d-flex align-items-top mi-h-3">  -->
 
         <!-- for menu -->
-            <div class="media d-flex align-items-center mi-h-3">
-                    
-        <div class="position-relative">
-            <img src="../../../assets/images/user/user-1.jpg" class="mr-3 img-md rounded-circle" alt="...">
-            <span class="online_circle"></span>
-        </div>
-        <div class="media-body">
-            <!-- <div aria-label="my_comment">
-                <input type="text" name="" placeholder="Write a comment..." class="rounded-pill comment_input">
-            </div> -->
-            <!-- <div aria-label="other_comment">
-                <div class="other_comment">
-                    <small>Milan Raval</small>
-                    <p class="comments">Cras sit amet nibh libero scabdbjkbd andfbjbe asjkdbb  ashbhb asjbhj </p>
+        <div class="media d-flex mi-h-3" [ngClass]="{'align-items-top':config.alignTop,'align-items-center':!config.alignTop}">
+            <div aria-label="left_side">
+                <div class="position-relative" *ngIf="!config.isIcon">
+                    <img src="{{config.imageURL}}" class="mr-2 img-md rounded-circle" alt="...">
+                    <span class="online_circle" *ngIf="config.isChat"></span>
                 </div>
-            </div> -->
-            <div aria-label="text_type">
-                <h6 class="m-0 font-weight-bold">Media heading</h6>
-                <!-- <small>Cras sit amet nibh libero</small> -->
+                <div class="icon_inside_circle d-flex justify-content-center align-items-center mr-2" *ngIf="config.isIcon">
+                    <i [class]="_iconsClass[config.iconName]" aria-hidden="true"></i>
+                </div>
+            </div>
+
+            <div aria-label="right_side" class="media-body">
+                <div *ngIf="config.isInput">
+                    <input type="text" name="" [readonly]="isReadOnly" placeholder="Write a comment..." class="rounded-pill comment_input">
+                </div>
+                <div *ngIf="config.isComment">
+                    <div class="other_comment">
+                        <small>{{config.title}}</small>
+                        <p class="comments">{{config.comment}}</p>
+                    </div>
+                </div>
+                <div *ngIf="config.isTextType">
+                    <h6 class="m-0 font-weight-bold">{{config.title}}</h6>
+                    <div *ngIf="config.subTitle">
+                        <div *ngIf="config.isSubtitleDateType">
+                            <small>{{config.subTitle | date:'dd MMM yyyy'}}</small>
+                        </div>
+                        <div *ngIf="!config.isSubtitleDateType">
+                            <small>{{config.subTitle}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div *ngIf="options">
+                    <app-dropdown [config]="options"></app-dropdown>
+                </div>
             </div>
         </div>
     </div>

@@ -10,4 +10,20 @@
 .card-text{
     color: var(--title-color);
 }
+.icon_container:hover i{
+    transform: scale(1.2);
+}
+.icon_container i{
+    color: white;
+    padding: 2px;
+    border-radius: 50%;
+    cursor: pointer;
+    
+}
+.like_icon{
+    background: blue
+}
+.love_icon{
+    background: red
+}
 

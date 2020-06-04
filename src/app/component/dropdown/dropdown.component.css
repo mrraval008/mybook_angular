@@ -1,0 +1,6 @@
+.dropdown-menu[x-placement^=bottom]{
+    right: 0 !important
+}
+.dropdown-menu{
+    left: initial !important
+}

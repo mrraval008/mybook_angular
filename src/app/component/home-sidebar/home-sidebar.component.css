@@ -1,3 +1,7 @@
 .sidebar_container h6{
     color:var(--title-color) !important
 }
+
+.nav>li>a{
+    padding: .25rem 1rem !important;
+}
