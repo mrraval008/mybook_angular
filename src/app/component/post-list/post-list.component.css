@@ -1,0 +1,13 @@
+cdk-virtual-scroll-viewport{
+    /* height: 100vh */
+    height: 100vh;
+}
+
+/* .cdk-virtual-scroll-content-wrapper{
+    max-width: 100px !important;
+    width: 100px !important;
+}
+.cdk-virtual-scroll-orientation-vertical .cdk-virtual-scroll-content-wrapper{
+    max-width: 100% !important;
+    width: 100% !important;
+} */

@@ -6,9 +6,8 @@
     margin: 0;
     padding: 0;
 }
-:root { 
+/* :root { 
     --first-color:#18191a;
-    /* --second-color:#4d4b50; */
     --second-color: #232225;
     --header-hover-color: #4d494eb3;
     --third-color:#373538fa;
@@ -16,8 +15,10 @@
     --input-background-color:#8A8D91;
     --text-color: rgb(176, 179, 184);
     --title-color:#ecf0f1;
-    --input-text-color:#ecf0f1
-} 
+    --input-text-color:#ecf0f1;
+    --popover-background:rgba(217, 221, 217, 1);
+    --blue-color:rgb(32, 120, 244)
+}  */
 /* https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties */
 
 ::-webkit-scrollbar {
@@ -56,8 +57,17 @@ input, button ,textarea{
 a,p,span,small{
     color: var(--text-color)
 }
+a,a:hover{
+    outline: none;
+    border: none;
+    color: var(--text-color)
+}
 h4,h5,h6{
     color: var(--title-color)
+}
+i{
+    cursor: pointer;
+    color:var(--title-color)
 }
 
 label{
@@ -201,8 +211,17 @@ hr{
 }
 
 .active-link{
-    border-bottom: 4px solid #0e7afff7;
+    border-bottom: 4px solid #0e7afff7 !important;
     color: #0e7afff7 !important;
+}
+
+emoji-mart{
+    z-index: 99;
+    position: absolute
+}
+
+i-feather{
+    color: var(--text-color)
 }
 
 

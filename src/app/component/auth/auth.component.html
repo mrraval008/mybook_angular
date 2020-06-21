@@ -4,25 +4,16 @@
       <h2>Welcome back,</h2>
 
       <form #signInForm="ngForm" (ngSubmit)="onSubmit(signInForm)">
-          <label>
-              <span>Email</span>
-              <input type="email"
-              id="email"
-              ngModel
-              name="email" />
-            </label>
-            <label>
-                <span>Password</span>
-                <input type="password"
-                id="password"
-                ngModel
-                name="password"
-                required
-                minlength="6"/>
-              </label>
-              <p class="forgot-pass">Forgot password?</p>
-              <button type="submit" class="submit" [disabled]="signInForm.invalid">Sign In</button>
-             
+        <label>
+          <span>Email</span>
+          <input type="email" id="email" ngModel name="email" required />
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" id="password" ngModel name="password" required minlength="6" />
+        </label>
+        <p class="forgot-pass">Forgot password?</p>
+        <button type="submit" class="submit" [disabled]="signInForm.invalid">Sign In</button>
       </form>
       <!-- <button type="button" class="fb-btn">Connect with
           <span>facebook</span>
@@ -45,22 +36,26 @@
       </div>
       <div class="form sign-up">
         <h2>Time to feel like home,</h2>
-        <label>
-          <span>Name</span>
-          <input type="text" />
-        </label>
-        <label>
-          <span>Email</span>
-          <input type="email" />
-        </label>
-        <label>
-          <span>Password</span>
-          <input type="password" />
-        </label>
-        <button type="button" class="submit">Sign Up</button>
-        <button type="button" class="fb-btn">Join with
-          <span>facebook</span>
-        </button>
+        <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)">
+
+          <label>
+            <span>Name</span>
+            <input type="text" id="name" ngModel name="name" required/>
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" id="signupEmail" ngModel name="signupEmail" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" id="signupPassword" ngModel name="signupPassword" required minlength="6" />
+          </label>
+          <label>
+            <span>Confirm Password</span>
+            <input type="password" id="confirmPassword" ngModel name="confirmPassword" required minlength="6" />
+          </label>
+          <button type="submit" class="submit" [disabled]="signupForm.invalid">Sign Up</button>
+        </form>
       </div>
     </div>
   </div>

@@ -7,8 +7,8 @@
     </div>
 
     <div *ngIf="isCreate" data-toggle="modal" data-target="#createModal">
-        <div class="m-3">
-            <app-box [config]="currentUserConfg" [isReadOnly]="true"></app-box>
+        <div class="m-2">
+            <app-box [config]="createPostConfig" [isReadOnly]="true"></app-box>
         </div>
         <hr/>
         <ul class="list-group list-group-horizontal p-2">
@@ -32,11 +32,11 @@
 
     <div *ngIf="!isCreate">
        
-        <div class="m-3">
+        <div class="m-2">
             <app-box [config]="createdByConfig" [options]="actionList"></app-box>
         </div>
 
-        <p class="card-text ml-3 mr-3">{{postContent}}</p>
+        <p class="card-text ml-3 mr-3">{{postContent | limitText:charLimitLength}}<span style="cursor:pointer" *ngIf="postContent.length > charLimitLength" (click)="charLimitLength = charLimitLength*4">see more</span></p>
 
         <div *ngIf="postImages.length > 0">
             <app-masonary [images]="postImages"></app-masonary>
@@ -47,12 +47,20 @@
             <div class="container">
                 <div class="row m-0">
                     <div>
-                        <span class="icon_container">
+                        <span class="icon_container position-relative">
                             <i class="fa fa-thumbs-up like_icon" aria-hidden="true"></i>
+                            <div *ngIf="noOfLikes > 0" class="position-absolute popover rounded-lg">
+                                <h5>Likes</h5>
+                                <p *ngFor="let like of postConfigs.likes">{{like.likedBy.name || currentUserName}}</p>
+                            </div>
                         </span>
-                        <span class="icon_container">
+                        <span class="icon_container position-relative">
                                 <!-- https://ezgif.com/effects/ezgif-3-acdb90e0221e.gif -->
                             <i class="fa fa-heart love_icon" aria-hidden="true"></i>
+                            <div *ngIf="noOfLikes > 0" class="position-absolute popover rounded-lg">
+                                    <h5>Loves</h5>
+                                    <p *ngFor="let like of postConfigs.likes">{{like.likedBy.name || currentUserName}}</p>
+                                </div>
                         </span>
                         <span class="ml-2">{{noOfLikes}} Likes</span>
                     </div>
@@ -64,23 +72,24 @@
                 <hr/>
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item  rounded" appHilightBackground #likeButton>
-                        <span>
-                            <i class="fa fa-thumbs-o-up pr-2" aria-hidden="true" (click)="onLikeClick(postId)"></i>Like</span>
+                        <span [ngClass]="{'likes':isLiked}">
+                            <i class="fa fa-thumbs-up pr-2" aria-hidden="true"></i>Like</span>
                     </li>
                     <li class="list-group-item  rounded" appHilightBackground>
                         <span>
-                            <i class="fa fa-comment-o pr-2" aria-hidden="true" (click)="onCommentClick(postId)"></i>Comments</span>
+                            <i class="fa fa-comments pr-2" aria-hidden="true"></i>Comments</span>
                     </li>
                     <li class="list-group-item  rounded" appHilightBackground>
                         <span>
-                            <i class="fa fa-share pr-2" aria-hidden="true" (click)="onShareClick(postId)"></i>Share</span>
+                            <i class="fa fa-share pr-2" aria-hidden="true"></i>Share</span>
                     </li>
                 </ul>
                 <hr/>
-                <app-box [config]="currentUserConfg"></app-box>
                 <div *ngFor="let commentConfig of commentsConfig">
                     <app-box [config]="commentConfig"></app-box>
                 </div>
+                <app-box [config]="currentUserCommentConfig"></app-box>
+                
             </div>
         </div>
     </div>

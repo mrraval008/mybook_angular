@@ -25,7 +25,7 @@ export class AuthComponent implements OnInit {
   constructor(private authService:AuthService,private router:Router,private store:Store<fromApp.AppState>) { }
 
   ngOnInit() {
-    this.store.select("auth").subscribe(data=>{
+    this.store.select("authUser").subscribe(data=>{
       console.log(data)
     })
   }
@@ -38,19 +38,31 @@ export class AuthComponent implements OnInit {
     if(!form.valid){
       return;
     }
+    let userData = {}
+    userData = {
+      email:form.value.email,
+      password:form.value.password
+    }
+    let postRoute = 'logIn'
 
-    const {email,password} = form.value;
+    if(this.isSignUpMode){
+      postRoute = 'signUp';
+      userData = {
+        name:form.value.name,
+        email:form.value.signupEmail,
+        password:form.value.signupPassword,
+        confirmPassword:form.value.confirmPassword
+      }
+    }
+    this.authService.authenticate(userData,postRoute).subscribe(this.handleResponseSuccess.bind(this),this.handleResponseError.bind(this))
+  }
 
-    let authObs: Observable<any>;
 
-    authObs = this.authService.login(email,password)
-
-    authObs.subscribe(resp=>{
-        this.router.navigate(['/home']);
-    },err=>{
+  handleResponseSuccess(suc){
+    // this.router.navigate(['/home']);
+  }
+  handleResponseError(err){
       console.log("error",err)
-    })
-
   }
 
 }

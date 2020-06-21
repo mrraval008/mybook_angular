@@ -1,4 +1,6 @@
 import  { User } from '../models/user.model';
+import { LikeModel } from 'src/app/models/like.model';
+import { commentModel } from 'src/app/models/comment.model';
 
 export class PostModel {
     constructor(
@@ -7,7 +9,8 @@ export class PostModel {
         public createdAt: string,
         public images:[string],
         public createdBy: User,
-        public likedBy:User,
+        public likes:LikeModel[],
+        public comments:commentModel[]
     ){}
 }
 

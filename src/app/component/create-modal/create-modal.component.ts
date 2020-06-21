@@ -12,8 +12,9 @@ import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 import { UtilsService } from 'src/app/service/utils.service';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { User } from 'src/app/models/user.model';
 
-
+declare var $: any;
 
 @Component({
   selector: 'app-create-modal',
@@ -31,6 +32,9 @@ export class CreateModalComponent implements OnInit {
   private removedImages = [];
   private postId: string;
   private updateSubscription:Subscription
+  public showEmojiPicker:boolean = false;
+  public post_content:string = "";
+  public _placeholder:string = "Whats on your mind"
 
   @ViewChild('closeButton', { static: false }) closeButtonCompo: any;
   @ViewChild('openModalButton', { static: false }) openModalButton: any;
@@ -41,11 +45,17 @@ export class CreateModalComponent implements OnInit {
   constructor(private postService: PostService, private store: Store<fromApp.AppState>,private util:UtilsService) { }
 
   ngOnInit() {
-
+    this.store.select('authUser').subscribe(data=>{
+      if(data.authUser){
+        this._placeholder = `Whats on your mind , ${data.authUser.name.split(" ")[0]}`
+      }
+    })
     this.postService.firePostAction.subscribe(actionName => {
       if (actionName === 'update') {
         this.isEditMode = true
         this.onUpdatePost();
+      }else if(actionName === 'create'){
+        this.openModalButton.nativeElement.click();
       }
     })
 
@@ -53,7 +63,27 @@ export class CreateModalComponent implements OnInit {
       file["id"] = Math.floor((Math.random() * 100) + 1);
       this.showPreview(file);
     }
+
+    $('#createModal').on('hidden.bs.modal', () =>{
+      if(this.updateSubscription){
+        this.updateSubscription.unsubscribe()
+      }
+    });
   }
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event) {
+    const text = `${this.post_content}${event.emoji.native}`;
+    this.post_content = text;
+  }
+
+  onClickedOutside(){
+    this.showEmojiPicker = false
+  }
+
 
   onUpdatePost() {
      this.uploadedImagesPreview = []
@@ -178,7 +208,9 @@ export class CreateModalComponent implements OnInit {
   }
 
   ngOnDestroy(){
-    this.updateSubscription.unsubscribe()
+    if(this.updateSubscription){
+      this.updateSubscription.unsubscribe()
+    }
   }
 
 }

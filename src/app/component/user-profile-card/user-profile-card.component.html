@@ -1,0 +1,35 @@
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="card">
+            <div class="card-header">
+                <div class="cover_pic">
+                    <img src="http://www.latestseotutorial.com/wp-content/uploads/2016/12/love-dp-for-facebook.jpg">
+                </div>
+                <div class="profile_pic">
+                    <img src={{config.imageURL}}>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-lfex justify-content-center flex-column">
+                    <div class="name_container">
+                        <div class="name"><h4>{{config.title}}</h4></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item  rounded" appHilightBackground>
+                        <a [routerLink]="[config.profileUrl]">
+                            <i class="fa fa-users pr-2" aria-hidden="true"></i>View Profile
+                        </a>
+                    </li>
+                    <li *ngIf="!isCurrentUser" class="list-group-item  rounded" appHilightBackground>
+                        <a [routerLink]="[config.messageUrl]">
+                            <i class="fa fa-comments pr-2" aria-hidden="true"></i>Message
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

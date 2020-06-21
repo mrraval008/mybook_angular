@@ -6,7 +6,6 @@ import {
 import { Observable } from 'rxjs';
 import { UtilsService } from 'src/app/service/utils.service';
 import { tap } from 'rxjs/internal/operators/tap';
-import { catchError } from 'rxjs/internal/operators/catchError';
 import { GlobalErrorHandlerService } from 'src/app/service/global-error-handler.service';
 import { error } from '@angular/compiler/src/util';
 
@@ -21,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor{
 
     intercept(req:HttpRequest<any>,next:HttpHandler): Observable<HttpEvent<any>> {
         let authToken = this.utils.getLocalStorageData("authToken");
-        let request;
+        let request = req.clone();
         if(authToken){
             authToken = 'Bearer '+ authToken;
             request = req.clone({
@@ -34,9 +33,8 @@ export class AuthInterceptor implements HttpInterceptor{
         return next.handle(request).pipe(
             tap(event =>{
                 if(event instanceof HttpResponse){
-                    console.log("ALL is werll")
                 }
-            },catchError(this.globalErrorHandler.handleError)
+            }
         ))
     }
 }

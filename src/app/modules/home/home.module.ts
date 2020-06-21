@@ -5,6 +5,7 @@ import { HomeComponent } from 'src/app/component/home/home.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { HomeMainComponent } from 'src/app/component/home-main/home-main.component';
 import { HomeSidebarComponent } from 'src/app/component/home-sidebar/home-sidebar.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 
 
@@ -18,6 +19,9 @@ import { HomeSidebarComponent } from 'src/app/component/home-sidebar/home-sideba
     CommonModule,
     HomeRoutingModule,
     SharedModule
+  ],
+  exports:[
+    ScrollingModule
   ]
 })
 export class HomeModule { }

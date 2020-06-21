@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { environment } from '../../environments/environment'
 import { catchError } from 'rxjs/internal/operators/catchError';
@@ -33,14 +33,20 @@ export class PostService {
   constructor(private httpService:HttpClient,private globalErrorService:GlobalErrorHandlerService,private store:Store<fromApp.AppState>) { }
 
   createPost(data){
+    data.append('createdAt',new Date());
+    data.append('modifiedAt',new Date())
     return this.httpService.post(this.serverUrl,data)
             .pipe(catchError(this.globalErrorService.handleError),
                   tap(data=>{this.handleCreatePost(data)}));
   }
 
+  // get(url:string){
+  //   return this.getAllPosts()
+  // }
+
   updatePost(id,data){
-    this.store.dispatch(new fromPostAction.StartEdit(id));
     let _serverUrl = `${this.serverUrl}/${id}`;
+    data.append('modifiedAt',new Date())
     return this.httpService.patch(_serverUrl,data)
             .pipe(
                 catchError(this.globalErrorService.handleError),
@@ -61,8 +67,16 @@ export class PostService {
   }
 
 
-  getAllPosts():Observable<PostModel[]>{
-    return this.httpService.get<postsResponse>(this.serverUrl)
+  getAllPosts(filters):Observable<PostModel[]>{
+    let httpParams = new HttpParams();
+    let _filter = {sort : '-modifiedAt'};
+    if(filters){
+      _filter = { ..._filter,...filters}
+    }
+    for(let key in _filter){
+      httpParams = httpParams.set(key,_filter[key]);
+    }
+    return this.httpService.get<postsResponse>(this.serverUrl,{params:httpParams})
           .pipe(
               map((data:postsResponse)=>{
                 let _posts = data.data;
@@ -80,7 +94,7 @@ export class PostService {
     this.store.dispatch(new PostAction.AddPost(postData.data));
   }
   handleUpdatePost(postData){
-    this.store.dispatch(new PostAction.UpdatePost(postData.data))
+    this.store.dispatch(new PostAction.UpdatePost(postData.data,""))
     this.store.dispatch(new PostAction.StopEdit())
   }
   handleDeletePost() {

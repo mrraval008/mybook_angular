@@ -7,9 +7,14 @@
          <div *ngIf="config.title">
             <h4 class="font-weight-bold">{{config.title}}</h4>
         </div>   
-        <div class="rounded-lg" [ngClass]="{'p-1':config.mdSize}" appHilightBackground *ngFor="let option of config.list_options">
-            <div (click)="onDropdownItemClick(option)">
-                    <app-box [config]="option"></app-box>
+        <div class="rounded-lg" style="cursor:pointer" [ngClass]="{'p-1':config.mdSize}" appHilightBackground *ngFor="let option of config.list_options">
+            <div (click)="onDropdownItemClick($event,option)">
+                <div *ngIf="option.name == 'createPost'" >
+                    <app-box [config]="option"  data-toggle="modal" data-target="#createModal"></app-box>
+                </div>
+                <div *ngIf="option.name != 'createPost'">
+                        <app-box [config]="option"></app-box>
+                </div>
             </div>
         </div>
     </div>

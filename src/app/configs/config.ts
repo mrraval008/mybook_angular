@@ -33,10 +33,13 @@ export const headerConfigs = {
                 {
                     iconName: 'edit',
                     title:"Post",
+                    name:'createPost',
                     url: '',
                     isPopup:true,
                     isIcon:true,
-                    isTextType:true
+                    isTextType:true,
+                    serviceName:'postService',
+                    actionName:'create'
                 },
                 {
                     iconName: 'book',
@@ -44,14 +47,18 @@ export const headerConfigs = {
                     url: '',
                     devider:true,
                     isIcon:true,
-                    isTextType:true
+                    isTextType:true,
+                    serviceName:'postService',
+                    actionName:'create'
                 },
                 {
                     iconName: 'star',
                     title:"Life Event",
                     url: '',
                     isIcon:true,
-                    isTextType:true
+                    isTextType:true,
+                    serviceName:'postService',
+                    actionName:'create'
                 }
             ]
         },
@@ -98,19 +105,22 @@ export const headerConfigs = {
                     isTextType:true
                 },
                 {   
-                    name:"theme",
+                    actionName:"themeChange",
                     iconName: 'moon',
                     title:"Dark Mode",
                     isToggle:true,
                     isIcon:true,
-                    isTextType:true
+                    isTextType:true,
+                    serviceName: "globalService",
                 },
                 {   
-                    name:"logout",
+                    name:"logOut",
                     iconName: 'sign_out',
                     title:"Log Out",
                     isIcon:true,
-                    isTextType:true
+                    isTextType:true,
+                    serviceName: "authService",
+                    actionName:"logOut",
                 }
             ]
         }
@@ -122,30 +132,12 @@ export const homeConfigs = {
     sidebarConfig:[
         {
             iconName: 'edit',
-            title:"Post",
-            url: '',
-            isPopup:true,
-            isIcon:false,
-            isTextType:true,
-            imageURL:'../../../assets/images/icon_images/korona.png',
-        },
-        {
-            iconName: 'edit',
             title:"Covid-19 Center",
             url: '',
             isPopup:true,
             isIcon:false,
             isTextType:true,
             imageURL:'../../../assets/images/icon_images/korona.png'
-        },
-        {
-            iconName: 'edit',
-            title:"Messanger",
-            url: '',
-            isPopup:true,
-            isIcon:false,
-            isTextType:true,
-            imageURL:'../../../assets/images/icon_images/messanger.png'
         },
         {
             iconName: 'edit',

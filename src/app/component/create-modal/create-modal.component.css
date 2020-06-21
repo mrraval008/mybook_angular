@@ -20,6 +20,7 @@
 }
 ::placeholder { 
     font-size: 1.5rem;
+    opacity: 0.4;
 }
 .image_conatiner i{
     font-size: 1rem;
@@ -31,4 +32,31 @@
 
 .image_conatiner:hover i{
     visibility: visible !important
+}
+emoji-mart{
+    top: 0;
+    right: 0;
+}
+
+.add_to_post{
+    height: 3rem;
+    border: 1px solid var(--fourth-color);
+    align-items: center;
+    padding: 1rem;
+    border-radius: 1rem;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.add_to_post h6{
+    width: 50%;
+    margin: 0
+}
+.add_to_post div{
+    width: 50%;
+    display: flex;
+    justify-content: space-between
+}
+.add_to_post .icon{
+    margin-left: 1rem
 }
