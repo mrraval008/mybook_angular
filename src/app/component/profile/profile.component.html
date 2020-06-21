@@ -1,0 +1,83 @@
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="card" *ngIf="userData">
+            <div class="card-header">
+                <div class="cover_pic position-relative">
+                    <img [src]="userData.coverPic">
+                    <div *ngIf="!isReadOnly">
+                        <input type="file" name="coverPicFileInput" id="coverPicFileInput" [uploader]="coverPicUploader" #coverPicFileInput ng2FileSelect
+                            class="invisible w-0" accept="image/x-png,image/gif,image/jpeg" />
+                        <div class="p-1 position-absolute cover_photo">
+                            <label for="coverPicFileInput" class="p-1">
+                                <i class="fa fa-camera mr-2" aria-hidden="true"></i>Edit Cover Photo
+                            </label>
+                            <span *ngIf="isEditCoverPhoto" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile_pic">
+                    <img [src]="userData.profilePic">
+                    <div *ngIf="!isReadOnly">
+                        <input type="file" name="profilePicFileInput" id="profilePicFileInput" [uploader]="profilePicUploader" #profilePicFileInput
+                            ng2FileSelect class="invisible w-0" accept="image/x-png,image/gif,image/jpeg" />
+                        <div class="position-relative">
+                            <label for="profilePicFileInput" class="p-1 position-absolute camera">
+                                <i class="fa fa-camera" aria-hidden="true"></i>
+                                <span *ngIf="isEditProfilePhoto" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-lfex justify-content-center flex-column">
+                    <div class="name_container">
+                        <div class="name">
+                            <!-- <h1>{{config.title}}</h1> -->
+                            <h1>{{userData.name}}</h1>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <nav class="navbar-expand-lg navbar-light _navbar">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                            <li class="nav-item profile_li back-hover-2 rounded-lg">
+                                <a class="nav-link" [routerLink]="['../'+userData.slug]" routerLinkActive="active-link">
+                                    <span>TimeLine</span>
+                                </a>
+                            </li>
+                            <li class="nav-item profile_li back-hover-2 rounded-lg">
+                                <a class="nav-link"[routerLink]="['../'+userData.slug]">
+                                    <span>About</span>
+                                </a>
+                            </li>
+                            <li class="nav-item profile_li back-hover-2 rounded-lg">
+                                <a class="nav-link" [routerLink]="['../'+userData.slug]">
+                                    <span>Photos</span>
+                                </a>
+                            </li>
+                            <li class="nav-item profile_li back-hover-2 rounded-lg">
+                                <a class="nav-link" [routerLink]="['../'+userData.slug]">
+                                    <span>About</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0">
+                            <app-search-bar></app-search-bar>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>

@@ -11,6 +11,19 @@ const routes: Routes = [
   {
     path:'home',
     loadChildren:'./modules/home/home.module#HomeModule'
+  },
+  {
+    path:'messages',
+    loadChildren:'./modules/messages/messages.module#MessagesModule'
+  },
+  {
+    path:'profile',
+    loadChildren:'./modules/profile/profile.module#ProfileModule'
+  },
+  {
+    path:'',
+    redirectTo:'home',
+    pathMatch:'full'
   }
 ];
 

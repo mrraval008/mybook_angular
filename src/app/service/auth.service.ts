@@ -20,6 +20,7 @@ import * as AuthAction from '../store/auth/auth.actions';
 
 import { User } from 'src/app/models/user.model';
 import { UtilsService } from 'src/app/service/utils.service';
+import { UserService } from 'src/app/service/user.service';
 
 interface UserData{
   active:string;
@@ -52,23 +53,43 @@ export class AuthService {
               private globalErrorHandler:GlobalErrorHandlerService,
               private router:Router,
               private store:Store<fromApp.AppState>,
-              private utils:UtilsService) {
+              private utils:UtilsService,
+              private userService:UserService
+            ) {
   }
 
-  login(email:string,password:string){
+  authenticate(userData,postRoute){
+     return this.httpService.post(`${this.serverUrl}/${postRoute}`,userData)
+            .pipe(
+              map(((resData:AuthResponseData)=>{
+                    let userObj  = {...resData.data.user};
+                    userObj['token'] = resData.data.token;
+                    this.utils.setLocaleStorageData({'authToken':resData.data.token})
+                    return userObj;
+                  })),
+              tap(resData=>{
+                  this.handletAuthentication(resData);
+                }), 
+              catchError(err=> {
+                  return this.globalErrorHandler.handleError(err);
+              })
+            )
+  }
 
-     return this.httpService.post(`${this.serverUrl}/login`,{email,password})
-            .pipe(catchError(this.globalErrorHandler.handleError),map(((resData:AuthResponseData)=>{
-                let userObj  = {...resData.data.user};
-                userObj['token'] = resData.data.token;
-                this.utils.setLocaleStorageData({'authToken':resData.data.token})
-                return userObj;
-            })), tap(resData=>{
-               this.handletAuthentication(resData);
-            }))
+  isLoggedIn(){
+      const _serverUrl  = `${this.serverUrl}/isLoggedIn`;
+      return this.httpService.get(_serverUrl)
+  }
+
+
+  logOut(){
+      this.utils.removeLocalStorage('authToken');
+      this.router.navigate(['/auth']);
   }
 
   handletAuthentication(resData){
-    this.store.dispatch(new AuthAction.Login(resData))
+    this.router.navigate(['/home']);
+    this.userService.setCurrentUserData(resData);
+    this.store.dispatch(new AuthAction.Login(resData));
   }
 }

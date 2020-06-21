@@ -9,7 +9,7 @@
 
     <ul class="navbar-nav ml-md-auto d-none d-xl-block">
         <ul class="nav nav-pills _header">
-            <li class="nav-item mr-1 back-hover-2" *ngFor="let icon of icons">
+            <li class="nav-item mr-1 back-hover-2 rounded-lg d-flex align-items-center" *ngFor="let icon of icons">
                 <a class="nav-link header-icon" [routerLink]="[icon.url]" routerLinkActive="active-link">
                     <i [class]="_iconsClass[icon.iconName]" aria-hidden="true"></i>
                 </a>

@@ -25,7 +25,7 @@ export class AddPosts implements Action {
 
 export class UpdatePost implements Action {
     readonly type = UPDATE_POST;
-    constructor(public payload:PostModel){
+    constructor(public payload:any,public nestedPayload:any){
 
     }
 }

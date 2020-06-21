@@ -12,18 +12,20 @@ import { authReducer } from './store/auth/auth.reducer';
 import { HeaderComponent } from './component/header/header.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { AuthInterceptor } from 'src/app/interceptors/authInterceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
         ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     // StoreModule.forRoot({authReducer:authReducer}),
     StoreModule.forRoot(fromApp.appReducer),
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
   ],
   providers: [
       {

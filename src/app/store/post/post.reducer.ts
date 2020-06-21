@@ -1,6 +1,11 @@
 import { PostModel } from '../../models/post.model';
 import * as PostActions from '../post/post.actions';
 
+import { UtilsService } from '../../service/utils.service';
+import { LikeModel } from 'src/app/models/like.model';
+
+const utilService = new UtilsService();
+
 export interface State{
     posts:PostModel[],
     editPost:PostModel,
@@ -8,7 +13,7 @@ export interface State{
 }
 
 const initialPost:State = {
-    posts:[new PostModel("","","",[""],null,null)],
+    posts:null,
     editPost:null,
     editPostIndex:-1
 } 
@@ -33,8 +38,31 @@ export function postReducer (
             }
 
         case PostActions.UPDATE_POST:
-            let updatedPost = state.posts[state.editPostIndex];
+            let updatedPost = {...state.posts[state.editPostIndex]}
+            if(!utilService.isEmpty(action.nestedPayload)){
+                const nestedPayload = action.nestedPayload;
+                if(updatedPost){
+                    if(nestedPayload.addLike){
+                        updatedPost.likes = [...updatedPost.likes,nestedPayload.data];
+                    }else if(nestedPayload.removeLike){
+                        updatedPost.likes = updatedPost.likes.filter((elem:any)=> elem._id !== nestedPayload.id);
+                    }else if(nestedPayload.addComment){
+                        updatedPost.comments = [...updatedPost.comments,nestedPayload.data]
+                    }else if(nestedPayload.removeComment){
+                        updatedPost.comments = updatedPost.comments.filter((elem:any)=> elem._id !== nestedPayload.id);
+                    }else if(nestedPayload.updateComment){
+                        let _updateCommentIndex = updatedPost.comments.findIndex((elem:any)=>elem._id === nestedPayload.data._id)
+                        if(_updateCommentIndex > -1){
+                            let updatedComment = { ...updatedPost.comments[_updateCommentIndex],...nestedPayload.data }
+                            let allComments = [...updatedPost.comments];
+                            allComments[_updateCommentIndex] = updatedComment;
+                            updatedPost.comments = [...allComments];
+                        }
+                    }
+                }
+            }else{
             updatedPost = { ...updatedPost,...action.payload }
+            }
 
             let allPosts = [...state.posts];
             allPosts[state.editPostIndex] = updatedPost;
@@ -66,6 +94,7 @@ export function postReducer (
                 editPost:null,
                 editPostIndex:-1
             }
+        default:return state
     }
      
 }

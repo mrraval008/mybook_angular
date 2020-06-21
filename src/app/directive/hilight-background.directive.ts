@@ -10,7 +10,6 @@ export class HilightBackgroundDirective {
   
   constructor(private elementRef:ElementRef<any>) {
     this.defaultColor = this.elementRef.nativeElement.style.getPropertyValue('background');
-    
   }
   @HostBinding("style.background") backgroundColor:string = this.defaultColor;
   

@@ -20,8 +20,8 @@ export class DropdownComponent implements OnInit {
     // console.log("listOptions",this.listOptions)
   }
 
-  onDropdownItemClick(dropdownData){
-    this.actionHandler.onFireAction(dropdownData)
+  onDropdownItemClick(event,dropdownData){
+    this.actionHandler.onFireAction(event,dropdownData)
   }
 
 }

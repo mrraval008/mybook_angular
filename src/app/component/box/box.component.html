@@ -1,9 +1,5 @@
 <div *ngIf="config">
-    <div class="box_container rounded">
-        <!-- for comments -->
-        <!-- <div class="media d-flex align-items-top mi-h-3">  -->
-
-        <!-- for menu -->
+    <div class="box_container rounded" [ngClass]="{'comment':config.isComment}">
         <div class="media d-flex mi-h-3" [ngClass]="{'align-items-top':config.alignTop,'align-items-center':!config.alignTop}">
             <div aria-label="left_side">
                 <div class="position-relative" *ngIf="!config.isIcon">
@@ -14,22 +10,69 @@
                     <i [class]="_iconsClass[config.iconName]" aria-hidden="true"></i>
                 </div>
             </div>
-
             <div aria-label="right_side" class="media-body">
                 <div *ngIf="config.isInput">
-                    <input type="text" name="" [readonly]="isReadOnly" placeholder="Write a comment..." class="rounded-pill comment_input">
+                    <input type="text" name="" [readonly]="isReadOnly" [placeholder]="config.inputPlaceholder" class="rounded-pill comment_input">
                 </div>
-                <div *ngIf="config.isComment">
-                    <div class="other_comment">
-                        <small>{{config.title}}</small>
-                        <p class="comments">{{config.comment}}</p>
+                <div *ngIf="config.isComment" (clickOutside)="onClickedOutside($event)">
+                    <div *ngIf="config.isWriteCommentBox" class="position-relative">
+                        <form #commentForm="ngForm" (ngSubmit)="onComment(commentForm)">
+                            <input type="text" [(ngModel)]="comment" name="comment" required [readonly]="isReadOnly" placeholder="Write a comment..."
+                                class="rounded-pill comment_input">
+                        </form>
+                        <button type="button" class="toggle-emoji position-absolute" (click)="toggleEmojiPicker()">
+                                <i-feather name="smile"></i-feather>
+                                </button>
+                        <emoji-mart  class="emoji-mart" set="emojione" (emojiSelect)="addEmoji($event)" *ngIf="showEmojiPicker" title="Pick your emoji…"></emoji-mart>
+                        <div *ngIf="showLoader" class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
+                    <div *ngIf="!config.isWriteCommentBox" class="position-relative">
+                        <div *ngIf="!isEditMode" class="other_comment" (dblclick)="onCommentClick()">
+                            <div class="position-relative">
+                                <a [routerLink]="config.profileUrl" (mouseenter)="onProfilePopover()" (mouseleave)="HideProfilePopover()">
+                                    <app-user-profile-card *ngIf="showProfilePopover" [config]="config"></app-user-profile-card>
+                                    <small>{{config.title}}</small>
+                                </a>
+                            </div>
+                            <p class="comments">{{config.comment | limitText:charLimitLength}}<span style="cursor:pointer" *ngIf="config.comment.length > charLimitLength" (click)="charLimitLength = charLimitLength*4">see more</span></p>
+                            <span *ngIf="!config.isReadOnly" class="delete_icon position-absolute" (click)="deleteComment()">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </span>
+                            <div *ngIf="showLoader" class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div *ngIf="isEditMode" (dblclick)="isEditMode = false">
+                            <form #commentForm="ngForm" (ngSubmit)="onComment(commentForm)">
+                                <input type="text" [(ngModel)]="comment" name="comment" required [readonly]="isReadOnly" placeholder="Write a comment..."
+                                    class="rounded-pill comment_input">
+                            </form>
+                            <button type="button" class="toggle-emoji position-absolute" (click)="toggleEmojiPicker()">
+                                    <i-feather name="smile"></i-feather>
+                                    </button>
+                            <emoji-mart class="emoji-mart" set="emojione" (emojiSelect)="addEmoji($event)" *ngIf="showEmojiPicker" title="Pick your emoji…"></emoji-mart>
+                            <div *ngIf="showLoader" class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <small *ngIf="config.timeStamp">{{config.timeStamp | timeAgo}}</small>
                 </div>
                 <div *ngIf="config.isTextType">
-                    <h6 class="m-0 font-weight-bold">{{config.title}}</h6>
+                    <div *ngIf="config.profilePopOver" class="position-relative" (mouseenter)="onProfilePopover()" (mouseleave)="HideProfilePopover()">
+                        <app-user-profile-card *ngIf="showProfilePopover" [config]="config"></app-user-profile-card>
+                        <a [routerLink]="[config.profileUrl]">
+                            <h6 class="m-0 font-weight-bold">{{config.title}}</h6>
+                        </a>
+                    </div>
+                    <div *ngIf="!config.profilePopOver">
+                        <h6 class="m-0 font-weight-bold">{{config.title}}</h6>
+                    </div>
                     <div *ngIf="config.subTitle">
                         <div *ngIf="config.isSubtitleDateType">
-                            <small>{{config.subTitle | date:'dd MMM yyyy'}}</small>
+                            <small>{{config.subTitle | timeAgo}}</small>
                         </div>
                         <div *ngIf="!config.isSubtitleDateType">
                             <small>{{config.subTitle}}</small>
@@ -41,7 +84,16 @@
                 <div *ngIf="options">
                     <app-dropdown [config]="options"></app-dropdown>
                 </div>
+                <div *ngIf="config.isToggle">
+                        <div class="checkbox switcher">
+                        <label for="test">
+                            <input type="checkbox" id="test" [name]="config.actionName" checked value="">
+                            <span><small></small></span>
+                        </label>
+                        </div>
+                </div>
             </div>
+
         </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 <app-loader [isLoading]="isLoading"></app-loader>
 
-<div class="modal fade" id="createModal" #createModalComp tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content _modal">
             <div class="modal-header">
@@ -14,16 +14,38 @@
                 <app-box [config]="_createConfig"></app-box>
                 <form #postForm="ngForm" (ngSubmit)="onSubmit(postForm)">
                     <div class="mi-h-15">
-                        <textarea [(ngModel)]="post_content" name="post_content" id="post_content" rows="4" placeholder="What's on your mind , Milan ?"
+                        <textarea [(ngModel)]="post_content" name="post_content" id="post_content" rows="4" [placeholder]="_placeholder"
                             class="modal_input" cols="50" required></textarea>
                     </div>
                     <div *ngIf="uploadedImagesPreview.length > 0" class="d-flex flex-wrap">
-                            <div *ngFor="let img of uploadedImagesPreview" class="mr-3 mt-3 position-relative image_conatiner">
-                                    <img src="{{img.src}}" style="height: 100%; width:100%">
-                                    <i class="fa fa-trash position-absolute invisible" aria-hidden="true" (click)="removeFile(img.imageId)"></i>
-                            </div>
+                        <div *ngFor="let img of uploadedImagesPreview" class="mr-3 mt-3 position-relative image_conatiner">
+                            <img src="{{img.src}}" style="height: 100%; width:100%">
+                            <i class="fa fa-trash position-absolute invisible" aria-hidden="true" (click)="removeFile(img.imageId)"></i>
+                        </div>
                     </div>
-                    <ul class="list-group list-group-horizontal p-2">
+
+                    <div class="d-flex add_to_post">
+                        <h6>Add to Your Post</h6>
+                        <div>
+                            <div>
+                                <input type="file" multiple name="image" id="fileInput" #fileInput ng2FileSelect class="invisible w-0" [uploader]="imagesUploader"
+                                    accept="image/x-png,image/gif,image/jpeg" />
+                                <label for="fileInput" class="p-1">
+                                    <span>
+                                        <img src="../../../assets/images/icon_images/photo.png">
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="icon" (clickOutside)="onClickedOutside($event)">
+                                <button type="button" class="toggle-emoji" (click)="toggleEmojiPicker()">
+                                        <img src="../../../assets/images/icon_images/smiley.png">
+                                </button>
+                                <emoji-mart class="emoji-mart" set="emojione" (emojiSelect)="addEmoji($event)" *ngIf="showEmojiPicker" title="Pick your emoji…"></emoji-mart>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <ul class="list-group list-group-horizontal p-2">
                         <li class="list-group-item rounded p-0" appHilightBackground>
                             <input type="file" multiple name="image" id="fileInput" #fileInput ng2FileSelect  class="invisible w-0" [uploader]="imagesUploader" accept="image/x-png,image/gif,image/jpeg" />
                             <label for="fileInput" class="p-1">
@@ -32,9 +54,18 @@
                                 </span>
                             </label>
                         </li>
-                    </ul>
+                        <li class="list-group-item rounded p-0">
+                                <div (clickOutside)="onClickedOutside($event)">
+                                        <button type="button" class="toggle-emoji" (click)="toggleEmojiPicker()">
+                                                Add to your post <i-feather name="smile"></i-feather>
+                                                </button>
+                                        <emoji-mart class="emoji-mart" set="emojione" (emojiSelect)="addEmoji($event)" *ngIf="showEmojiPicker" title="Pick your emoji…"></emoji-mart>
+                                </div>
+                             
+                            </li>
+                    </ul> -->
                     <button type="submit" [disabled]="postForm.form.invalid" class="btn btn-primary w-100">Post</button>
-                    
+
                 </form>
             </div>
             <div class="modal-footer">

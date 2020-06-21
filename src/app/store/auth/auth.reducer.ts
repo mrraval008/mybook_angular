@@ -2,31 +2,33 @@ import { User } from 'src/app/models/user.model';
 import * as AuthActions from 'src/app/store/auth/auth.actions';
 
 export interface State{
-    user:User
+    authUser:User
 }
 
 const initialState:State = {
-    user:null
+    authUser:null
 }
 
 
 export function authReducer(state=initialState,action:AuthActions.AuthActions){
     switch(action.type){
         case AuthActions.LOGIN : {
-            const user = new User(
+            const authUser = new User(
+                action.payload._id,
                 action.payload.name,
                 action.payload.email,
                 action.payload.profilePic,
                 action.payload.coverPic,
                 action.payload.slug,
-                action.payload.token
+                action.payload.token,
+                action.payload.isOnline
             )
             return {
                 ...state,
-                user
+                authUser
             }
         };
-        default:return initialState
+        default:return state
         
     }
 }
