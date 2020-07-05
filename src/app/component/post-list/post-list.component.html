@@ -1,14 +1,18 @@
-<div *ngIf="isLoading">
-        <!-- <app-loader [isLoading]="isLoading"></app-loader> -->
-    </div>
-    <div class="posts_container">
-            <app-post-card *ngIf="!readOnly" isCreate="true"></app-post-card>
+<!-- <app-carousel [images]="images" [activeIndex]="activeIndex"></app-carousel> -->
+<app-carousel></app-carousel>
 
-            <div *ngFor="let post of posts">
-                    <app-post-card [postConfigs]="post"></app-post-card>
-            </div>
-            <!-- <cdk-virtual-scroll-viewport itemSize="400" class="viewport">
+<div *ngIf="isLoading">
+    <!-- <app-loader [isLoading]="isLoading"></app-loader> -->
+</div>
+<div class="posts_container">
+    <app-post-card *ngIf="!readOnly" isCreate="true"></app-post-card>
+    <app-infinite-scroll (scrolled)="onScroll()">
+        <div *ngFor="let post of posts">
+            <app-post-card [postConfigs]="post"></app-post-card>
+        </div>
+    </app-infinite-scroll>
+
+    <!-- <cdk-virtual-scroll-viewport itemSize="400" class="viewport">
                 <app-post-card *cdkVirtualFor="let post of ds" [postConfigs]="post">{{post || 'Loading...'}}</app-post-card>
               </cdk-virtual-scroll-viewport> -->
-    </div>
-    
+</div>

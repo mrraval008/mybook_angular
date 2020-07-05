@@ -19,4 +19,10 @@ export class Login implements Action {
             isOnline:string}){}
 }
 
-export type AuthActions =  Login
+
+export class LogOut implements Action {
+    readonly type = LOGOUT;
+    constructor(){}
+}
+
+export type AuthActions =  Login | LogOut;

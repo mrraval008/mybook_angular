@@ -13,7 +13,10 @@
           <input type="password" id="password" ngModel name="password" required minlength="6" />
         </label>
         <p class="forgot-pass">Forgot password?</p>
-        <button type="submit" class="submit" [disabled]="signInForm.invalid">Sign In</button>
+        <button type="submit" class="submit" [disabled]="signInForm.invalid || signInProcess"> 
+          <span *ngIf="signInProcess" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Sign In
+        </button>
       </form>
       <!-- <button type="button" class="fb-btn">Connect with
           <span>facebook</span>
@@ -54,7 +57,10 @@
             <span>Confirm Password</span>
             <input type="password" id="confirmPassword" ngModel name="confirmPassword" required minlength="6" />
           </label>
-          <button type="submit" class="submit" [disabled]="signupForm.invalid">Sign Up</button>
+          <button type="submit" class="submit" [disabled]="signupForm.invalid || signUpProcess">
+              <span *ngIf="signUpProcess" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Sign Up
+          </button>
         </form>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { tap } from 'rxjs/internal/operators/tap';
 import { Store } from '@ngrx/store';
 
@@ -8,6 +7,9 @@ import * as fromApp from '../store/app.reducer'
 import * as postAction from '../store/post/post.actions';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { commentModel } from 'src/app/models/comment.model';
+import { UserService } from 'src/app/service/user.service';
+import { WebsocketService } from 'src/app/service/websocket.service';
+import { APIEndPoints } from '../configs/config';
 
 
 export interface responseData {
@@ -21,9 +23,9 @@ export interface responseData {
 })
 export class CommentService {
 
-  private serverUrl = environment.CommentsAPIEndPoint;
+  private serverUrl = APIEndPoints.CommentsAPIEndPoint;
 
-  constructor(private httpClient:HttpClient,private store:Store<fromApp.AppState>) { }
+  constructor(private httpClient:HttpClient,private store:Store<fromApp.AppState>,private userService:UserService,private socketService:WebsocketService) { }
 
 
   createComment(data,postId){
@@ -35,7 +37,7 @@ export class CommentService {
                     tap(data=>{
                     let _data = data;
                     _data['addComment'] = true;
-                    this.handleCommentResponseSuccess(_data)
+                    this.handleCommentResponseSuccess(_data,postId)
                   }))
   }
 
@@ -46,7 +48,7 @@ export class CommentService {
       tap(data => {
       data['removeComment'] = true;
       data['id'] = commentId;
-      this.handleCommentResponseSuccess(data);
+      this.handleCommentResponseSuccess(data,postId);
     }))
   }
 
@@ -59,13 +61,22 @@ export class CommentService {
               tap((data)=>{
                 let _data = data;
                 _data['updateComment'] = true;
-                this.handleCommentResponseSuccess(_data)
+                this.handleCommentResponseSuccess(_data,postId)
               })
           )    
   }
 
 
-  handleCommentResponseSuccess(data){
+  handleCommentResponseSuccess(data,postId){
+    if(data.addComment){
+      let userData = this.userService.getCurrentUserData();
+      let notificationData = {
+        userData,
+        postId,
+        type:'addComment'
+      }
+      this.socketService.notifyUser(notificationData)
+    }
     this.store.dispatch(new postAction.UpdatePost([],data))
     this.store.dispatch(new postAction.StopEdit());
   }

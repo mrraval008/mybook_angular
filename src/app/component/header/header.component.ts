@@ -23,13 +23,15 @@ export class HeaderComponent implements OnInit {
   public menuConfigs = headerConfigs.menus;
   private allUsers: User[];
   private currentUser: User;
-  private isMessageInit :boolean = false
+  private isMessageInit: boolean = false
 
   constructor(private websocketService: WebsocketService, private userService: UserService, private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
     this.websocketService.newMessageReceived().subscribe(this.onMessagesReceived.bind(this));
-    
+    this.websocketService.onNotifyUser().subscribe(this.onNotifyUser.bind(this));
+
+
     this.store.select('authUser').subscribe(state => {
       if (state.authUser) {
         this.currentUser = state.authUser;
@@ -49,10 +51,10 @@ export class HeaderComponent implements OnInit {
     // })
   }
 
-  initGetMessages(){
-    if(this.currentUser && this.allUsers && this.allUsers.length > 0){
-      if(!this.isMessageInit){
-          this.getCurrentUserMessages();
+  initGetMessages() {
+    if (this.currentUser && this.allUsers && this.allUsers.length > 0) {
+      if (!this.isMessageInit) {
+        this.getCurrentUserMessages();
       }
       this.isMessageInit = true
     }
@@ -62,64 +64,86 @@ export class HeaderComponent implements OnInit {
 
 
   getCurrentUserMessages() {
-    let filter = {roomName:`${this.currentUser.slug}/&`}
-    this.userService.getChatMessages(filter).subscribe((roomData:Array<any>) => {
+    let filter = { roomName: `${this.currentUser.slug}/&` }
+    this.userService.getChatMessages(filter).subscribe((roomData: Array<any>) => {
       if (roomData && roomData.length > 0) {
         let messageData = [];
         roomData.forEach(elem => {
-          if(elem.messages && elem.messages.length > 0){
+          if (elem.messages && elem.messages.length > 0) {
             let roomNameSplit = elem.roomName.split("&");
             let otherUserSlug = roomNameSplit[0] === this.currentUser.slug ? roomNameSplit[1] : roomNameSplit[0];
-            let message = elem.messages[elem.messages.length - 1].message;
-            messageData.push(this.formatMessageData({message},otherUserSlug));
+            let reverseArray = elem.messages.slice().reverse();
+            let message = reverseArray.find(elem => elem.userName !== this.currentUser.name).message;
+            messageData.push(this.formatMessageData({ message }, otherUserSlug));
           }
         });
-        this.pushMessageNotification(messageData);
+        this.pushNotification(messageData, "messanger", false);
       }
     })
   }
 
-  // getCurrentUserMessages(){
-  //   this.userService.getChatMessages('',true).pipe(concatMap(chatRoomData=>{
-  //         this.store.select('user').subscribe(userData=>{
-  //             if(chatRoomData){
-  //               chatRoomData.forEach(element => {
-
-  //               });
-  //             }
-  //         })
-  //   }))
-  // }
-
   onMessagesReceived(data) {
-      let formattedMsgData = this.formatMessageData(data,data.slug)
-      this.pushMessageNotification(formattedMsgData)
+    let formattedMsgData = this.formatMessageData(data, data.slug)
+    this.pushNotification(formattedMsgData, "messanger", true)
   }
 
-  formatMessageData(msgData,otherUserSlug) {
+  onNotifyUser(data) {
+    console.log("notificationData", data)
+    let formattedLikeData = this.formatLikeData(data._notifyingData)
+    this.pushNotification(formattedLikeData, "notification", true)
+  }
+
+  formatLikeData(notificationData) {
+    let title;
+    if (notificationData.type === 'addLike') {
+      title = `${notificationData.userData.name}  like your post "${notificationData.postContent.substr(0, 10)}..."`;
+    } else if (notificationData.type === 'addComment') {
+      title = `${notificationData.userData.name}  commented on your post "${notificationData.postContent.substr(0, 10)}..."`;
+    }
+    return {
+      title,
+      isTextType: true,
+      imageURL: notificationData.userData.profilePic,
+      subTitle: notificationData.userData.name,
+      slug: notificationData.userData.slug
+    }
+  }
+
+  formatMessageData(msgData, otherUserSlug) {
     let otherUser = this.allUsers.find(elem => elem.slug === otherUserSlug);
     return {
-        title: msgData.message,
-        isTextType: true,
-        imageURL: otherUser.profilePic,
-        subTitle: otherUser.name,
-        slug:otherUser.slug
+      title: msgData.message,
+      isTextType: true,
+      imageURL: otherUser.profilePic,
+      subTitle: otherUser.name,
+      slug: otherUser.slug,
+      serviceName: 'redirect',
+      redirectUrl: `../messages/${otherUser.slug}`
     }
   }
 
-  pushMessageNotification(msgData) {
-    let messageConfig = this.menuConfigs.find(elem => elem.name === "messanger");
-    
-    if (messageConfig.list_options) {
-      let ind = messageConfig.list_options.findIndex(elem=>elem.slug === msgData.slug)
-      if(ind > -1){
-        messageConfig.list_options[ind].title =  msgData.title;
-      }else{
-        messageConfig.list_options.push(msgData)
+  pushNotification(notificationData, type, updateBadgeNotification) {
+    let config = this.menuConfigs.find(elem => elem.name === type);
+
+    if (config.list_options) {
+      let ind = config.list_options.findIndex(elem => elem.slug === notificationData.slug)
+      if (ind > -1) {
+        config.list_options[ind].title = notificationData.title;
+        if (config.badgeCount == 0) {
+          config.badgeCount = 1;
+        }
+      } else {
+        config.list_options.push(notificationData)
+        config.badgeCount = config.badgeCount ? config.badgeCount + 1 : 1;
       }
+
     } else {
-      messageConfig.list_options = msgData;
+      config.list_options = Array.isArray(notificationData) ? [...notificationData] : [notificationData];
+      if (config.list_options.length > 0) {
+        config.badgeCount = config.list_options.length;
+      }
     }
+
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { headerConfigs } from '../../configs/config';
+import { headerConfigs ,APIEndPoints } from '../../configs/config';
 import { iconsClass } from '../../enums/enum';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
@@ -8,7 +8,6 @@ import { User } from 'src/app/models/user.model';
 import { FileUploader } from 'ng2-file-upload';
 import { UtilsService } from 'src/app/service/utils.service';
 import { environment } from 'src/environments/environment';
-
 
 @Component({
   selector: 'app-profile',
@@ -81,7 +80,7 @@ export class ProfileComponent implements OnInit {
 
 
   onAfterAddingFile(file) {
-    file.url = `${environment.UserAPIEndPoint}/${this.userData.slug}`
+    file.url = `${APIEndPoints.UserAPIEndPoint}/${this.userData.slug}`
     file.withCredentials = false;
 
   }

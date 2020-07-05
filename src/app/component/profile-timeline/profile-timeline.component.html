@@ -5,10 +5,8 @@
           
         </div>
     </div>
-    <div class="col-sm-7">
-      <div *ngIf="filters">
+    <div class="col-sm-7 autoscroll" *ngIf="filters">
           <app-post-list [filters]="filters"></app-post-list>
-      </div>
     </div>
   </div>
 </div>

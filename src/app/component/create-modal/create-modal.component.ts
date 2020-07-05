@@ -13,6 +13,7 @@ import * as fromApp from '../../store/app.reducer';
 import { UtilsService } from 'src/app/service/utils.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { User } from 'src/app/models/user.model';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 
@@ -34,7 +35,9 @@ export class CreateModalComponent implements OnInit {
   private updateSubscription:Subscription
   public showEmojiPicker:boolean = false;
   public post_content:string = "";
-  public _placeholder:string = "Whats on your mind"
+  public _placeholder:string = "Whats on your mind";
+  public dialogTitle = "Create Post";
+
 
   @ViewChild('closeButton', { static: false }) closeButtonCompo: any;
   @ViewChild('openModalButton', { static: false }) openModalButton: any;
@@ -42,17 +45,20 @@ export class CreateModalComponent implements OnInit {
   @ViewChild('fileInput', { static: false }) fileInputElem: ElementRef;
   @ViewChild('postForm', { static: false }) postForm: NgForm
 
-  constructor(private postService: PostService, private store: Store<fromApp.AppState>,private util:UtilsService) { }
+  constructor(private postService: PostService, private store: Store<fromApp.AppState>,private util:UtilsService,private toastService:ToastrService) { }
 
   ngOnInit() {
     this.store.select('authUser').subscribe(data=>{
       if(data.authUser){
+        this._createConfig.title = data.authUser.name;
+        this._createConfig.imageURL = data.authUser.profilePic;
         this._placeholder = `Whats on your mind , ${data.authUser.name.split(" ")[0]}`
       }
     })
     this.postService.firePostAction.subscribe(actionName => {
       if (actionName === 'update') {
-        this.isEditMode = true
+        this.isEditMode = true;
+        this.dialogTitle = "Update Post"
         this.onUpdatePost();
       }else if(actionName === 'create'){
         this.openModalButton.nativeElement.click();
@@ -80,7 +86,7 @@ export class CreateModalComponent implements OnInit {
     this.post_content = text;
   }
 
-  onClickedOutside(){
+  onClickedOutside(event){
     this.showEmojiPicker = false
   }
 
@@ -146,8 +152,8 @@ export class CreateModalComponent implements OnInit {
       return;
     }
     let isDirty = false
-
-    if (form.dirty) {
+    //in case of adding imojis form will be not get dirty
+    if (form.dirty || this.post_content !== form.value.post_content) {
       isDirty = true;
     }
     this.isLoading = true;
@@ -180,7 +186,8 @@ export class CreateModalComponent implements OnInit {
         this.postService.createPost(formData).subscribe(this.handleSuccess.bind(this),this.handleError.bind(this))
       }
     } else {
-
+      this.isLoading = false;
+      this.toastService.info('No Changes to Save')
     }
   }
 

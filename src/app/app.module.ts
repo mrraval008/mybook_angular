@@ -13,7 +13,6 @@ import { HeaderComponent } from './component/header/header.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { AuthInterceptor } from 'src/app/interceptors/authInterceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 @NgModule({
   declarations: [
     AppComponent,

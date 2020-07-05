@@ -1,3 +1,14 @@
+
+export const APIEndPoints = {
+    PostAPIEndPoint:"https://mybook-nodejs.herokuapp.com/api/v1/posts",
+    UserAPIEndPoint:"https://mybook-nodejs.herokuapp.com/api/v1/users",
+    LikeAPIEndPoint:"https://mybook-nodejs.herokuapp.com/api/v1/likes",
+    CommentsAPIEndPoint:"https://mybook-nodejs.herokuapp.com/api/v1/comments",
+    PostsS3ImageBaseURL:"https://mybookproject.s3.ap-south-1.amazonaws.com/posts",
+    UserS3ImagerBseeURL:"https://mybookproject.s3.ap-south-1.amazonaws.com/users"
+}
+
+
 export const headerConfigs = {
     icons: [
         {
@@ -6,19 +17,15 @@ export const headerConfigs = {
         },
         {
             iconName: 'desktop',
-            url: './auth'
         },
         {
             iconName: 'book',
-            url: './abc'
         },
         {
             iconName: 'users',
-            url: './abc'
         },
         {
             iconName: 'building',
-            url: './abc'
         }
 
     ],
@@ -64,8 +71,9 @@ export const headerConfigs = {
         },
         {
             name: "messanger",
-            title: "Messanger",
+            title: "Messages",
             iconName: "comment",
+            badgeCount:0,
             mdSize:true,
             isHeader:true
             
@@ -74,6 +82,7 @@ export const headerConfigs = {
             name: "notification",
             title: "Notification",
             iconName: "bell",
+            badgeCount:0,
             mdSize:true,
             isHeader:true
             
@@ -224,10 +233,10 @@ export const homeConfigs = {
 }
 
 export const createConfig = {
-        title:"Milan Raval",
+        title:"",
         url: '',
         isIcon:false,
         isTextType:true,
-        imageURL:'../../../assets/images/icon_images/messanger.png',
+        imageURL:'',
         subTitle:"public"
 }

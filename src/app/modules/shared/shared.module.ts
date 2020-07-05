@@ -24,6 +24,8 @@ import { ClickOutsideModule } from 'ng-click-outside';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { InfiniteScrollComponent } from 'src/app/component/infinite-scroll/infinite-scroll.component';
+import { FilterPipe } from 'src/app/pipe/filter.pipe';
 @NgModule({
   declarations: [
     BoxComponent,
@@ -39,7 +41,9 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     UserProfileCardComponent,
     PostListComponent,
     LimitTextPipe,
-    TimeAgoPipe
+    TimeAgoPipe,
+    InfiniteScrollComponent,
+    FilterPipe
   ],
   imports: [
     CommonModule,
@@ -72,7 +76,9 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     LimitTextPipe,
     TimeAgoPipe,
     ToastrModule,
-    ScrollingModule
+    ScrollingModule,
+    InfiniteScrollComponent,
+    FilterPipe
   ]
 })
 export class SharedModule { }

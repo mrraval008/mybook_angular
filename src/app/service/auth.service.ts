@@ -6,7 +6,8 @@ import { catchError, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 
-import { environment  } from '../../environments/environment'
+import { APIEndPoints } from '../configs/config';
+
 import { map } from 'rxjs/internal/operators/map';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { GlobalErrorHandlerService } from 'src/app/service/global-error-handler.service';
@@ -47,7 +48,7 @@ export interface AuthResponseData{
 })
 export class AuthService {
 
-  private serverUrl:string = environment.UserAPIEndPoint;
+  private serverUrl:string = APIEndPoints.UserAPIEndPoint;
 
   constructor(private httpService:HttpClient,
               private globalErrorHandler:GlobalErrorHandlerService,
@@ -84,6 +85,7 @@ export class AuthService {
 
   logOut(){
       this.utils.removeLocalStorage('authToken');
+      this.store.dispatch(new AuthAction.LogOut())
       this.router.navigate(['/auth']);
   }
 

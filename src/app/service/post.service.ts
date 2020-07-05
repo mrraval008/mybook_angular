@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { environment } from '../../environments/environment'
+import { APIEndPoints } from '../configs/config';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { GlobalErrorHandlerService } from 'src/app/service/global-error-handler.service';
 import { map } from 'rxjs/internal/operators/map';
@@ -14,6 +14,7 @@ import { tap } from 'rxjs/internal/operators/tap';
 import { Subject } from 'rxjs/internal/Subject';
 
 import * as fromPostAction from '../store/post/post.actions';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 export interface postsResponse{
     data:PostModel[],
@@ -27,23 +28,19 @@ export interface postsResponse{
 
 export class PostService {
 
-  private serverUrl:string = environment.PostAPIEndPoint;
+  private serverUrl:string = APIEndPoints.PostAPIEndPoint;
   public firePostAction = new Subject();
+  public carouselSub = new BehaviorSubject<any>({});
 
   constructor(private httpService:HttpClient,private globalErrorService:GlobalErrorHandlerService,private store:Store<fromApp.AppState>) { }
 
   createPost(data){
     data.append('createdAt',new Date());
-    data.append('modifiedAt',new Date())
+    data.append('modifiedAt',new Date());
     return this.httpService.post(this.serverUrl,data)
             .pipe(catchError(this.globalErrorService.handleError),
                   tap(data=>{this.handleCreatePost(data)}));
   }
-
-  // get(url:string){
-  //   return this.getAllPosts()
-  // }
-
   updatePost(id,data){
     let _serverUrl = `${this.serverUrl}/${id}`;
     data.append('modifiedAt',new Date())
@@ -70,6 +67,10 @@ export class PostService {
   getAllPosts(filters):Observable<PostModel[]>{
     let httpParams = new HttpParams();
     let _filter = {sort : '-modifiedAt'};
+    let initialGet = false;
+    if(filters && filters.page == 1){
+      initialGet = true;
+    }
     if(filters){
       _filter = { ..._filter,...filters}
     }
@@ -83,12 +84,12 @@ export class PostService {
                 return _posts;
               }),
               tap((postData)=>{
-                this.handleGetPosts(postData)
+                this.handleGetPosts(postData,initialGet)
               }))
   }
 
-  handleGetPosts(data){
-    this.store.dispatch(new PostAction.AddPosts(data))
+  handleGetPosts(data,initialGet){
+    this.store.dispatch(new PostAction.AddPosts(data,initialGet))
   }
   handleCreatePost(postData){
     this.store.dispatch(new PostAction.AddPost(postData.data));

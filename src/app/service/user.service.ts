@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { APIEndPoints } from '../configs/config';
 import { map } from 'rxjs/internal/operators/map';
 import { User } from 'src/app/models/user.model';
 import { catchError } from 'rxjs/internal/operators/catchError';
@@ -24,7 +24,7 @@ export interface ResponseData{
 
 export class UserService {
 
-  private serverUrl = environment.UserAPIEndPoint;
+  private serverUrl = APIEndPoints.UserAPIEndPoint;
   private userData:User;
   constructor(private httpClient:HttpClient,private globalErrorhandler:GlobalErrorHandlerService,private store:Store<fromApp.AppState>,private utils:UtilsService) {
       // this.getOnlineUsers();
@@ -46,7 +46,7 @@ export class UserService {
   getOnlineUsers(data){
     // const userData  = this.getCurrentUserData();
     let searchParams = new HttpParams();
-    searchParams = searchParams.append('_id',`{"$ne":"${data._id}"}`)
+    searchParams = searchParams.append('_id',`{"$ne":"${data._id}"}`);
     // searchParams = searchParams.append('isOnline','true');
     return this.httpClient.get(this.serverUrl,{params:searchParams}).pipe(
       map((data:ResponseData)=>{

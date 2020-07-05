@@ -15,6 +15,7 @@ export class ChatListComponent implements OnInit {
 
   public userListConfig; 
   private userData:User[];
+  public filterText:string = "";
   constructor(private userService:UserService,private store:Store<fromApp.AppState>,private utilService:UtilsService) { }
 
   ngOnInit() {
@@ -25,19 +26,7 @@ export class ChatListComponent implements OnInit {
         this.formatUserData(_userData)
       }
     })
-    // this.getOnlineUsers()
-    
   }
-
-
-  // getOnlineUsers(){
-  //     this.userService.getOnlineUsers().subscribe(data=>{
-
-  //     },err=>{
-
-  //     })
-  // }
-
   formatUserData(data){
     this.userListConfig = data.map(elem=>{
       return {
@@ -49,6 +38,10 @@ export class ChatListComponent implements OnInit {
       }
     
     })
+  }
+
+  onInputChange(event){
+    this.filterText = event.target.value;
   }
 
 

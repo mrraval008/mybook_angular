@@ -32,9 +32,16 @@ export function postReducer (
             }
 
         case PostActions.ADD_POSTS:
+            let _postData = state.posts
+
+            if(_postData && !action.initialGet){
+                _postData = [...state.posts,...action.payload]
+            }else{
+                _postData = [...action.payload]
+            }
             return {
                 ...state,
-                posts: [...action.payload]
+                posts: _postData
             }
 
         case PostActions.UPDATE_POST:
@@ -44,6 +51,14 @@ export function postReducer (
                 if(updatedPost){
                     if(nestedPayload.addLike){
                         updatedPost.likes = [...updatedPost.likes,nestedPayload.data];
+                    }if(nestedPayload.updateLike){
+                        let _updateLikeIndex = updatedPost.likes.findIndex((elem:any)=>(elem.likedBy._id || elem.likedBy) === nestedPayload.data.likedBy._id)
+                        if(_updateLikeIndex > -1){
+                            let updatedLike = { ...updatedPost.likes[_updateLikeIndex],...nestedPayload.data }
+                            let allLikes = [...updatedPost.likes];
+                            allLikes[_updateLikeIndex] = updatedLike;
+                            updatedPost.likes = [...allLikes];
+                        }
                     }else if(nestedPayload.removeLike){
                         updatedPost.likes = updatedPost.likes.filter((elem:any)=> elem._id !== nestedPayload.id);
                     }else if(nestedPayload.addComment){
