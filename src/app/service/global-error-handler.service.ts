@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalErrorHandlerService {
 
-  constructor() { }
+  constructor(private toastService:ToastrService) { }
 
 
   handleError(errorRes) {
@@ -16,6 +17,7 @@ export class GlobalErrorHandlerService {
     }
 
     errorMessage = errorRes.error.message;
+    this.toastService.error(errorMessage);
     
     return throwError(errorMessage);
   }

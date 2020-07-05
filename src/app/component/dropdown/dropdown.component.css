@@ -4,3 +4,22 @@
 .dropdown-menu{
     left: initial !important
 }
+#dropdownMenu{
+    position: relative
+}
+.badge{
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    height: 20px;
+    border-radius: 50%;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--notification-badge-background);
+    color:white
+}
+.custom_dropdown h4{
+    padding: 0.5rem;
+}

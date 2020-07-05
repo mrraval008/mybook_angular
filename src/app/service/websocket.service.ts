@@ -14,7 +14,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class WebsocketService {
 
-  private socket = io(environment.ServerURL)
+  private socket = io('/',{
+    secure:true,
+    rejectUnauthorized: false,
+    path: '/chat/socket.io'
+  })
 
   constructor(private userService: UserService, private store: Store,private toastService:ToastrService) {
     const userData = this.userService.getCurrentUserData();
@@ -30,10 +34,14 @@ export class WebsocketService {
   sendMessage(data) {
     this.socket.emit('message', data);
   }
+  notifyUser(notificationData){
+    this.socket.emit('notifyUser',notificationData)
+  }
 
   initializeSocketListener(){
     this.userJoin();
     this.userLeft();
+    this.onNotifyUser
   }
 
 
@@ -56,12 +64,28 @@ export class WebsocketService {
     this.socket.emit('typing', data);
   }
 
+  onNotifyUser(){
+    const observable = new Observable<{ data: object }>(observer => {
+      this.socket.on('onNotifyUser', data => {
+        console.log(data)
+        if(data._notifyingData.type === 'addLike'){
+          this.toastService.info(`${data._notifyingData.userData.name}  like your post "${data._notifyingData.postContent.substr(0,10)}..."`,'Notification') 
+        }else if(data._notifyingData.type === 'addComment'){
+          this.toastService.info(`${data._notifyingData.userData.name}  commented on your post "${data._notifyingData.postContent.substr(0,10)}..."`,'Notification') 
+        }
+        observer.next(data);
+      });
+      return () => {
+        this.socket.disconnect();
+      }
+    });
+    return observable;
+  }
+
 
   receivedTyping() {
     const observable = new Observable<{ isTyping: boolean }>(observer => {
       this.socket.on('typing', data => {
-        console.log("typing")
-
         observer.next(data);
       });
       return () => {

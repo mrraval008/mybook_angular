@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { PostService } from 'src/app/service/post.service';
 
 @Component({
   selector: 'app-masonary',
@@ -7,17 +8,15 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MasonaryComponent implements OnInit {
 
-  public showCarousel:boolean = false;
-  @Input() images:[string];
-  public activeIndex:number
-  constructor() { }
+  @Input() images = [];
+  public activeIndex:number;
+  constructor(private postService:PostService) { }
 
   ngOnInit() {
   }
 
   onImageClick(event){
-      this.activeIndex = event.target.id
-      this.showCarousel = true
+    this.postService.carouselSub.next({images:this.images,activeIndex:event.target.id})
   }
 
 }

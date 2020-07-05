@@ -4,13 +4,8 @@
 
 export const environment = {
   production: false,
-  ServerURL:"ws://127.0.0.1:3000",
-  PostAPIEndPoint:"http://127.0.0.1:3000/api/v1/posts",
-  UserAPIEndPoint:"http://127.0.0.1:3000/api/v1/users",
-  LikeAPIEndPoint:"http://127.0.0.1:3000/api/v1/likes",
-  CommentsAPIEndPoint:"http://127.0.0.1:3000/api/v1/comments",
-  PostsS3ImageBaseURL:"https://mybookproject.s3.ap-south-1.amazonaws.com/posts",
-  UserS3ImagerBseeURL:"https://mybookproject.s3.ap-south-1.amazonaws.com/users"
+  // SocketServerURL:"ws://127.0.0.1:3000",
+ 
 };
 
 /*

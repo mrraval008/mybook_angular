@@ -13,13 +13,13 @@ import * as fromApp from  '../../store/app.reducer';
 })
 export class ChatBoxComponent implements OnInit {
 
-  private otherUserData:User;
+  public otherUserData:User;
   private AllUser:User[] = [];
-  private userData:User;
+  public userData:User;
   private roomName:string;
-  private isTyping:boolean;
-  private messagesArray;
-  private message:string
+  public isTyping:boolean;
+  public messagesArray;
+  public message:string
   private loadChat:boolean = false;
   public showEmojiPicker:boolean = false;
   
@@ -56,7 +56,9 @@ export class ChatBoxComponent implements OnInit {
     this.websocketService.joinRoom(_chatData);
     let filter = {roomName:this.roomName}
     this.userService.getChatMessages(filter).subscribe(chatRoomData=>{
-      this.messagesArray = chatRoomData[0].messages;
+      if(chatRoomData && chatRoomData.length > 0){
+        this.messagesArray = chatRoomData[0].messages;
+      }
       this.loadChat = true;
     },err=>{
     })
@@ -95,6 +97,9 @@ export class ChatBoxComponent implements OnInit {
 
   onTypingReceived(data){
     this.isTyping = data.isTyping;
+    setTimeout(()=>{
+      this.isTyping = false;
+    },2000)
     console.log("typinggggg");
   }
 
@@ -107,7 +112,7 @@ export class ChatBoxComponent implements OnInit {
     this.message = text;
   }
   
-  onClickedOutside(){
+  onClickedOutside(event){
     this.showEmojiPicker = false
   }
 

@@ -9,18 +9,22 @@ import * as fromApp from './store/app.reducer';
 })
 export class AppComponent {
   title = 'client';
-  constructor(private websocketServise:WebsocketService,private store:Store<fromApp.AppState>) { }
+  public isUserLoggedIn:boolean = false;
+  constructor(private websocketService:WebsocketService,private store:Store<fromApp.AppState>) { }
 
   ngOnInit(){
     this.store.select('authUser').subscribe(data=>{
         if(data.authUser){
+          this.isUserLoggedIn = true;
           let _roomData = {
             roomName: data.authUser._id,
             userName:data.authUser.name,
             userId:data.authUser._id,
             isInitialJoin:true
           }
-          this.websocketServise.joinRoom(_roomData)
+          this.websocketService.joinRoom(_roomData)
+        }else{
+          this.isUserLoggedIn = false;
         }
     })
   }

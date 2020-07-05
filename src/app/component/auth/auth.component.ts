@@ -20,6 +20,8 @@ import { Store } from '@ngrx/store';
 export class AuthComponent implements OnInit {
 
   public isSignUpMode:boolean = false;
+  public signInProcess:boolean = false;
+  public signUpProcess:boolean = false;
   
 
   constructor(private authService:AuthService,private router:Router,private store:Store<fromApp.AppState>) { }
@@ -43,9 +45,9 @@ export class AuthComponent implements OnInit {
       email:form.value.email,
       password:form.value.password
     }
-    let postRoute = 'logIn'
-
+    let postRoute = 'logIn';
     if(this.isSignUpMode){
+      this.signUpProcess = true;
       postRoute = 'signUp';
       userData = {
         name:form.value.name,
@@ -53,16 +55,21 @@ export class AuthComponent implements OnInit {
         password:form.value.signupPassword,
         confirmPassword:form.value.confirmPassword
       }
+    }else{
+      this.signInProcess = true;
     }
     this.authService.authenticate(userData,postRoute).subscribe(this.handleResponseSuccess.bind(this),this.handleResponseError.bind(this))
   }
 
 
   handleResponseSuccess(suc){
+    this.signUpProcess = false;
+    this.signInProcess = false;
     // this.router.navigate(['/home']);
   }
   handleResponseError(err){
-      console.log("error",err)
+    this.signUpProcess = false;
+    this.signInProcess = false;
   }
 
 }

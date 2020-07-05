@@ -20,7 +20,7 @@ export class AddPost implements Action {
 
 export class AddPosts implements Action {
     readonly type = ADD_POSTS;
-    constructor(public payload:PostModel[]){}
+    constructor(public payload:PostModel[],public initialGet){}
 }
 
 export class UpdatePost implements Action {

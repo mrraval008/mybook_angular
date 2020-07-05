@@ -13,11 +13,11 @@ export class HilightBackgroundDirective {
   }
   @HostBinding("style.background") backgroundColor:string = this.defaultColor;
   
-  @HostListener('mouseenter') mouseover(eventData:Event){
+  @HostListener('mouseenter') mouseover(){
     let color = getComputedStyle(this.elementRef.nativeElement).getPropertyValue("--third-color")
     this.backgroundColor = color;
   }
-  @HostListener('mouseleave') mouseleave(eventData:Event){
+  @HostListener('mouseleave') mouseleave(){
     this.backgroundColor = this.defaultColor;
   }
 

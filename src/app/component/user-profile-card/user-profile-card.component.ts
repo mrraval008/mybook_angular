@@ -10,7 +10,7 @@ import { User } from 'src/app/models/user.model';
 export class UserProfileCardComponent implements OnInit {
 
   private currentUserData;
-  @Input() public config:User;
+  @Input() public config:any;
   public isCurrentUser:boolean = false;
 
   constructor(private userService:UserService) { }

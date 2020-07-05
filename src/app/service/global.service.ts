@@ -14,7 +14,9 @@ export const darkTheme =
     '--title-color':'#ecf0f1',
     '--input-text-color':'#ecf0f1',
     '--popover-background':'rgba(217, 221, 217, 1)',
-    '--blue-color':'rgb(32, 120, 244)'
+    '--blue-color':'rgb(32, 120, 244)',
+    '--notification-badge-background':'#f02849',
+    '--yellow-color':'rgb(247, 177, 37)'
 }
 
 export const lightTheme = 
@@ -29,7 +31,9 @@ export const lightTheme =
     '--title-color':'#0e0e0e',
     '--input-text-color':'#1f2123',
     '--popover-background':'rgba(217, 221, 217, 1)',
-    '--blue-color':'rgb(32, 120, 244)'
+    '--blue-color':'rgb(32, 120, 244)',
+    '--notification-badge-background':'#f02849',
+    '--yellow-color':'rgb(247, 177, 37)'
 }
 
 @Injectable({

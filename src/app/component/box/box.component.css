@@ -5,7 +5,7 @@
     padding-bottom: 0.5rem
 }
 .comment_input{
-    color:var(--text-color);
+    color:var(--title-color);
     outline: 0;
     background: var(--third-color);
     height: 2.5rem;

@@ -1,21 +1,29 @@
 <div class="dropdown">
-    <div class="icon_inside_circle d-flex justify-content-center align-items-center mr-2" id="dropdownMenu" data-toggle="dropdown">
+    <div class="icon_inside_circle d-flex justify-content-center align-items-center mr-2" id="dropdownMenu" data-toggle="dropdown"
+        (click)='onDropdownBadgeClick()'>
         <i [class]="_iconsClass[config.iconName]" aria-hidden="true"></i>
+        <span *ngIf="config.badgeCount && config.badgeCount > 0" class="badge badge-light">{{config.badgeCount}}</span>
     </div>
 
-    <div class="dropdown-menu dropdown-menu-right custom_dropdown light_shadow" [ngClass]="{'fix-dropdopwn':config.isHeader}" aria-labelledby="dropdownMenu">
-         <div *ngIf="config.title">
+    <div class="dropdown-menu dropdown-menu-right custom_dropdown light_shadow" [ngClass]="{'fix-dropdopwn':config.isHeader}"
+        aria-labelledby="dropdownMenu">
+        <div *ngIf="config.title">
             <h4 class="font-weight-bold">{{config.title}}</h4>
-        </div>   
-        <div class="rounded-lg" style="cursor:pointer" [ngClass]="{'p-1':config.mdSize}" appHilightBackground *ngFor="let option of config.list_options">
-            <div (click)="onDropdownItemClick($event,option)">
-                <div *ngIf="option.name == 'createPost'" >
-                    <app-box [config]="option"  data-toggle="modal" data-target="#createModal"></app-box>
-                </div>
-                <div *ngIf="option.name != 'createPost'">
+        </div>
+        <div *ngIf="config.list_options">
+            <div class="rounded-lg" style="cursor:pointer" [ngClass]="{'p-1':config.mdSize}" appHilightBackground *ngFor="let option of config.list_options">
+                <div (click)="onDropdownItemClick($event,option)">
+                    <div *ngIf="option.name == 'createPost'">
+                        <app-box [config]="option" data-toggle="modal" data-target="#createModal"></app-box>
+                    </div>
+                    <div *ngIf="option.name != 'createPost'">
                         <app-box [config]="option"></app-box>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div *ngIf="!config.list_options || config.list_options.length == 0">
+            <p>No {{config.title}}</p>
         </div>
     </div>
 </div>

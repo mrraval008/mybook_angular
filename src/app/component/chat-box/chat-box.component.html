@@ -15,13 +15,22 @@
         <div class="card-body msg_card_body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
             <div class="d-flex justify-content-start mb-4" *ngFor="let msg of messagesArray" [ngClass]="{'justify-content-end':msg.userName===userData.name}">
                 <div class="img_cont_msg" *ngIf="msg.userName!==userData.name">
-                    <img src="{{userData.profilePic}}" class="rounded-circle user_img_msg">
+                    <img src="{{otherUserData.profilePic}}" class="rounded-circle user_img_msg">
                 </div>
                 <div class="msg_cotainer">
                     {{msg.message}}
                     <span class="msg_time">{{msg.messageTime | timeAgo}}</span>
                 </div>
+             
             </div>
+            <div *ngIf="isTyping" class="ticontainer">
+                <div class="tiblock">
+                    <span>{{otherUserData.name}} is typing</span>
+                  <div class="tidot"></div>
+                  <div class="tidot"></div>
+                  <div class="tidot"></div>
+                </div>
+              </div>
         </div>
         <div class="card-footer position-relative">
             <div class="input-group">

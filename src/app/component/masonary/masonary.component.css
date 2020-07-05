@@ -62,3 +62,11 @@
   .overlay p{
     color: white !important;
   }
+  .overlay-container{
+    height: 100%;
+    width: 100%;
+  }
+  .overlay-container img{
+    height: 100%;
+    width: 100%
+  }

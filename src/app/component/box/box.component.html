@@ -46,7 +46,7 @@
                         </div>
                         <div *ngIf="isEditMode" (dblclick)="isEditMode = false">
                             <form #commentForm="ngForm" (ngSubmit)="onComment(commentForm)">
-                                <input type="text" [(ngModel)]="comment" name="comment" required [readonly]="isReadOnly" placeholder="Write a comment..."
+                                <input type="text" [(ngModel)]="config.comment" name="comment" required [readonly]="isReadOnly" placeholder="Write a comment..."
                                     class="rounded-pill comment_input">
                             </form>
                             <button type="button" class="toggle-emoji position-absolute" (click)="toggleEmojiPicker()">
@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div>
-                <div *ngIf="options">
+                <div *ngIf="(options | keyvalue)?.length">
                     <app-dropdown [config]="options"></app-dropdown>
                 </div>
                 <div *ngIf="config.isToggle">

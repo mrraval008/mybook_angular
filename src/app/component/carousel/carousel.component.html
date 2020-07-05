@@ -8,20 +8,7 @@
                 <div class="carousel-inner w-100">
                         <div class="carousel-item" *ngFor="let imgUrl of images;let i = index"  [ngClass]="i == activeIndex ? 'active' : null">
                                 <img src="{{imgUrl}}" class="d-block w-100" alt="Images">
-                            </div>
-                   
-                    <!-- <div class="carousel-item">
-                        <img src="../../../assets/images/place_images/mysore.jpg" class="d-block w-100" alt="../../../assets/images/user/user-1.jpg">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="../../../assets/images/place_images/mysore_2.jpg" class="d-block w-100" alt="../../../assets/images/user/user-1.jpg">
-                    </div>
-                    <div class="carousel-item active">
-                            <img src="../../../assets/images/place_images/mysore_3.jpg" class="d-block w-100" alt="../../../assets/images/user/user-1.jpg">
                         </div>
-                        <div class="carousel-item">
-                                <img src="../../../assets/images/place_images/mysore_4.jpg" class="d-block w-100" alt="../../../assets/images/user/user-1.jpg">
-                            </div> -->
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

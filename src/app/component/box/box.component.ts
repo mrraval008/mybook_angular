@@ -33,9 +33,9 @@ export class BoxComponent implements OnInit {
   }
 
   addEmoji(event) {
-    const text = `${this.comment}${event.emoji.native}`;
+    const text = `${this.config.comment}${event.emoji.native}`;
 
-    this.comment = text;
+    this.config.comment = text;
     // this.showEmojiPicker = false;
   }
 
@@ -104,7 +104,7 @@ export class BoxComponent implements OnInit {
     clearTimeout(this.popOverTimer);
     this.showProfilePopover = false;
   }
-  onClickedOutside(){
+  onClickedOutside(event){
     this.showEmojiPicker = false
   }
 }

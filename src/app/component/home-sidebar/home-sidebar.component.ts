@@ -14,7 +14,7 @@ import { Observable } from 'rxjs/internal/Observable';
 export class HomeSidebarComponent implements OnInit {
 
   public homeConfigs = homeConfigs;
-  public userDataConfig: object;
+  public userDataConfig: any;
 
   constructor(private store: Store<fromApp.AppState>) { }
 
