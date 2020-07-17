@@ -1,9 +1,9 @@
 
 export const APIEndPoints = {
-    PostAPIEndPoint:"https://mybook-nodejs.herokuapp.com/api/v1/posts",
-    UserAPIEndPoint:"https://mybook-nodejs.herokuapp.com/api/v1/users",
-    LikeAPIEndPoint:"https://mybook-nodejs.herokuapp.com/api/v1/likes",
-    CommentsAPIEndPoint:"https://mybook-nodejs.herokuapp.com/api/v1/comments",
+    PostAPIEndPoint:"/api/v1/posts",
+    UserAPIEndPoint:"/api/v1/users",
+    LikeAPIEndPoint:"/api/v1/likes",
+    CommentsAPIEndPoint:"/api/v1/comments",
     PostsS3ImageBaseURL:"https://mybookproject.s3.ap-south-1.amazonaws.com/posts",
     UserS3ImagerBseeURL:"https://mybookproject.s3.ap-south-1.amazonaws.com/users"
 }

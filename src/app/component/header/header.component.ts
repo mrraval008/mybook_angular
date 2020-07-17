@@ -73,8 +73,10 @@ export class HeaderComponent implements OnInit {
             let roomNameSplit = elem.roomName.split("&");
             let otherUserSlug = roomNameSplit[0] === this.currentUser.slug ? roomNameSplit[1] : roomNameSplit[0];
             let reverseArray = elem.messages.slice().reverse();
-            let message = reverseArray.find(elem => elem.userName !== this.currentUser.name).message;
-            messageData.push(this.formatMessageData({ message }, otherUserSlug));
+            let arr = reverseArray.find(elem => elem.userName !== this.currentUser.name);
+            if(arr && arr.message){
+              messageData.push(this.formatMessageData({ message: arr.message }, otherUserSlug));
+            }
           }
         });
         this.pushNotification(messageData, "messanger", false);

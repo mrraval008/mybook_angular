@@ -21,7 +21,8 @@ export class ChatListComponent implements OnInit {
   ngOnInit() {
     this.store.select('user').subscribe(data=>{
       if(data && data.user != null && !this.utilService.isEmpty(data.user)){
-        let _userData = data.user.filter((elem:User)=> elem.isOnline == "true" )
+        let _userData = data.user;
+        // let _userData = data.user.filter((elem:User)=> elem.isOnline == "true" )
         this.userData = _userData;
         this.formatUserData(_userData)
       }
