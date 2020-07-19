@@ -66,8 +66,13 @@ export class PostListComponent implements OnInit {
     this.postServiceSub = this.postService.getAllPosts(this.filters).subscribe(suc => {
       this.isLoading = false;
       this.storeSub = this.store.select('posts').subscribe((data) => {
+        
         if(data && data.posts){
-          this.posts = data.posts;
+          let _posts = [...data.posts];
+          _posts =  _posts.sort((a, b) => {
+            return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
+          });
+          this.posts = _posts;
         }
       })
     }, err => {

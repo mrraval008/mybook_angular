@@ -194,10 +194,12 @@ export class CreateModalComponent implements OnInit {
   handleSuccess(suc){
     this.isLoading = false;
     let text = "Awesome.... Post created Succesfully.";
+    
     let type = 'success';
     if(this.isEditMode){
       text = "Awesome.... Post updated Succesfully."
     }
+    this.toastService.info(text)
     // this.util.showToast(type,text);
     this.postForm.reset();
     this.uploadedImagesPreview = [];
